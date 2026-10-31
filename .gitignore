@@ -12,3 +12,11 @@ voice-profile.json
 .env
 .env.*
 !.env.example
+
+# Keep rendered videos local; reference code and small PNG baselines are tracked.
+*.mp4
+*.mov
+*.mkv
+*.webm
+*.avi
+*.m4v

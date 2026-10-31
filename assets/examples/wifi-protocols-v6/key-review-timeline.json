@@ -1,0 +1,35 @@
+{
+  "scope": "Selected final-film excerpts; deliberate jumps between chapters; original final-film audio",
+  "clips": [
+    {
+      "id": "dhcp_recap",
+      "original_start_s": 127.29166666666667,
+      "duration_s": 17.625,
+      "excerpt_start_s": 0
+    },
+    {
+      "id": "arp",
+      "original_start_s": 201.95833333333337,
+      "duration_s": 18.583333333333332,
+      "excerpt_start_s": 17.625
+    },
+    {
+      "id": "web",
+      "original_start_s": 241.20833333333337,
+      "duration_s": 24.125,
+      "excerpt_start_s": 36.20833333333333
+    },
+    {
+      "id": "layers",
+      "original_start_s": 296.7916666666667,
+      "duration_s": 22.125,
+      "excerpt_start_s": 60.33333333333333
+    },
+    {
+      "id": "rarp",
+      "original_start_s": 405.75,
+      "duration_s": 20.916666666666668,
+      "excerpt_start_s": 82.45833333333333
+    }
+  ]
+}

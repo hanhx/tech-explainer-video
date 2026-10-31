@@ -1,0 +1,57 @@
+{
+  "id": "wifi-handdrawn-v6",
+  "canvas": [
+    1920,
+    1080
+  ],
+  "logical_canvas": [
+    1600,
+    900
+  ],
+  "fps": 24,
+  "palette": {
+    "paper": "#fcf8ed",
+    "ink": "#263a40",
+    "muted": "#627476",
+    "blue": "#276eab",
+    "green": "#347563",
+    "purple": "#785b99",
+    "gold": "#b97522",
+    "red": "#b94f46"
+  },
+  "font_env": [
+    "EXPLAINER_FONT",
+    "EXPLAINER_MONO_FONT"
+  ],
+  "reference_layout": {
+    "title_top": 112,
+    "title_size": 39,
+    "world": [
+      80,
+      210,
+      1440,
+      370
+    ],
+    "state_panel": [
+      80,
+      605,
+      1440,
+      130
+    ],
+    "subtitle_top": 785,
+    "subtitle_size": 30
+  },
+  "use_scope": "Starting visual parameters when user requests this sample style; recompose for topic and aspect ratio",
+  "motion": [
+    "smooth position changes",
+    "static handdrawn texture",
+    "event-driven state updates",
+    "allow reading holds",
+    "single focus"
+  ],
+  "not_included": [
+    "network protocol sequence as new-topic template",
+    "personal voice reference",
+    "models"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "source": "Original delivered network-wifi-protocols-v6 renderer, current font environment",
+  "samples": [
+    {
+      "cue": "mac",
+      "phase": 0.99,
+      "file": "mac.png",
+      "sha256": "e9eb0b78be84c53de8ecf85fa3b3daacdcf459925dc1244c948be9e8895dddab"
+    },
+    {
+      "cue": "dhcp_recap",
+      "phase": 0.5,
+      "file": "dhcp_recap.png",
+      "sha256": "e04e21a5d16312bea4689132e1dca512b1ba7d3b9703acdc012c7c286526758c"
+    },
+    {
+      "cue": "arp",
+      "phase": 0.5,
+      "file": "arp.png",
+      "sha256": "7f5c99f705e4da50e4e3a492c9e3d112c3e1148420f0b03c82f4300960e2b3ac"
+    },
+    {
+      "cue": "layers",
+      "phase": 0.99,
+      "file": "layers.png",
+      "sha256": "5c643dee330d5174d7bc5668e5a49fbe378ea1a7b3ce4ab2a5562601ba08863f"
+    }
+  ]
+}

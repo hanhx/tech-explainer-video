@@ -1,0 +1,97 @@
+{
+  "case_id": "wifi-protocols-v6",
+  "date": "2026-10-31",
+  "duration_s": 446.708333,
+  "width": 1920,
+  "height": 1080,
+  "fps": "24/1",
+  "cue_count": 26,
+  "engine": "Pillow procedural animation + FFmpeg; not a Manim-rendered film",
+  "user_feedback": {
+    "quote": "这次视频做的比较好",
+    "scope": "Overall positive feedback and request to keep this film as a future reference; not a word-by-word pronunciation audit or independent learner test"
+  },
+  "technical_checks": {
+    "full_decode_passed": true,
+    "source_audio_hashes_checked": true,
+    "waveform_alignment_checked": true,
+    "technical_checks_passed": true
+  },
+  "original_source_bundle": {
+    "project_name": "network-wifi-protocols-v6",
+    "file": "network-wifi-protocols-source.zip",
+    "sha256": "86ccbb579752491260eb41550e51cf2480eed8dda6690f646188751d896df07d",
+    "included_in_skill": false
+  },
+  "files": [
+    {
+      "path": "video.mp4",
+      "sha256": "a24febcb4ef09bbb0fabfb9e808ad6078387d2f3da46c88e72274b0b5dbfd964",
+      "bytes": 19354728
+    },
+    {
+      "path": "key-review.mp4",
+      "sha256": "3b4ea615f2ac6a731f819b57a01dbf55f08a2d25d86620b5d51228db8d9dd6a7",
+      "bytes": 3084782
+    },
+    {
+      "path": "key-review-timeline.json",
+      "sha256": "31e0caa81c7c01a2594b648bbd61669c367239e5d1c84b6b816abb5e2596aa72",
+      "bytes": 865
+    },
+    {
+      "path": "contact-sheet.png",
+      "sha256": "fc5dcba671e58ee4723266fbbf2bd7348efbf2fbf8d0b3b378e63afe9ad18df1",
+      "bytes": 802788
+    },
+    {
+      "path": "storyboard.md",
+      "sha256": "280453583a8c37af6ba7997f5bfa923932a0e17f8545253975fe53df851fc2ce",
+      "bytes": 15677
+    },
+    {
+      "path": "narration.md",
+      "sha256": "aa6579992cdb1856bc3fbb18577230e18555de3f73b2331ffb4d1f3d97bed928",
+      "bytes": 6571
+    },
+    {
+      "path": "knowledge.md",
+      "sha256": "c788aa54a4cbbf7169b8ee4009e4ee8be1d704b2db2749e165e05d7636afd44c",
+      "bytes": 7372
+    },
+    {
+      "path": "chapters.md",
+      "sha256": "efb1dcbbaf872b2ed602a4315edaad71af99567368c04bb71c9e94b14484de00",
+      "bytes": 1259
+    },
+    {
+      "path": "production-review.md",
+      "sha256": "4a37dad55863592b8ef273324f80cce3b2047614229132b1f95f3daea516383c",
+      "bytes": 3626
+    }
+  ],
+  "exclusions": [
+    "personal reference recording",
+    "local voice configuration",
+    "model weights",
+    "virtualenvs",
+    "raw TTS and render caches"
+  ],
+  "reproducible_baseline": {
+    "project_manifest": "project/project-manifest.json",
+    "project_manifest_sha256": "263f4df5499bbc8ccf148d9bd0511a069a2aaf81b71ad2a7622ca52f427d1727",
+    "goldens_manifest": "goldens/manifest.json",
+    "goldens_manifest_sha256": "45b9a3b6d59b28ca67d3f44c4144b6c0f0a54b31ecb5b9f9bb660c364f467c0c",
+    "component_module_skill_relative": "assets/handdrawn-kit/visuals.py",
+    "style_profile_skill_relative": "assets/handdrawn-kit/profile.json"
+  },
+  "distribution": {
+    "git": "Source, documents and small PNG reference images only",
+    "local_only": [
+      "video.mp4",
+      "key-review.mp4",
+      "project/audio/"
+    ],
+    "visual_calibration_without_media": true
+  }
+}

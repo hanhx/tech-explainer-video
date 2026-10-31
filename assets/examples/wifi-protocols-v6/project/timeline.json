@@ -1,0 +1,622 @@
+{
+  "schema_version": 1,
+  "fps": 24,
+  "narration": true,
+  "voice_profile": {
+    "id": "my-voice-lively",
+    "reference_sha256": "fe5415cf201aa6bdaa8d95974564b88d5fe3b9519c1a9d2465542f521af083ac",
+    "profile_fingerprint": "fb7d924ae0e1ebc06edd43912e7515a78eec9147828e155ada491b0af87459d4",
+    "generation": {
+      "language": "Chinese",
+      "non_streaming_mode": true,
+      "max_new_tokens": 384
+    },
+    "processing": {
+      "tempo": 1.06,
+      "pitch_semitones": 0,
+      "sentence_ending": "exclamation"
+    }
+  },
+  "source_plan_sha256": "92140facbabce694b34b6c16bda5a0851d16a64b3af81b6a4d5a69f03897adeb",
+  "duration_s": 446.70833333333337,
+  "scenes": [
+    {
+      "id": "s01",
+      "title": "笔记本没有网线，怎么开始联网？",
+      "start_s": 0.0,
+      "duration_s": 12.375,
+      "lead_s": 0.20833333333333334,
+      "tail_s": 0.20833333333333334,
+      "cues": [
+        {
+          "id": "hook",
+          "spoken_text": "上一集，请求已经到达服务器。这次从笔记本连接无线网络开始：没有网线，谁先工作？关闭无线之后，哪里先断？",
+          "subtitle": "没有网线也能联网\n这次跟着 Wi-Fi 走",
+          "start_s": 0.20833333,
+          "absolute_start_s": 0.20833333,
+          "duration_s": 10.543542,
+          "action_s": 6.0,
+          "hold_s": 1.4,
+          "slot_s": 11.958333333333334,
+          "audio": "audio/hook-my-voice-lively-42083e73f5fa.wav",
+          "audio_sha256": "297479574b4963c85edcdd0bb61f49a32e415c051814781e75c509f8d4af2a34"
+        }
+      ]
+    },
+    {
+      "id": "s02",
+      "title": "无线网卡，也是实体硬件",
+      "start_s": 12.375,
+      "duration_s": 13.666666666666666,
+      "lead_s": 0.20833333333333334,
+      "tail_s": 0.20833333333333334,
+      "cues": [
+        {
+          "id": "interfaces",
+          "spoken_text": "紫色是笔记本的无线网卡。蓝色是有线接口，没有内置的，也可以外接。两种都可以是实体网卡，各有自己的MAC地址。",
+          "subtitle": "无线网卡也是实体硬件\n有线接口可以内置或外接",
+          "start_s": 0.20833333,
+          "absolute_start_s": 12.58333333,
+          "duration_s": 11.828292,
+          "action_s": 6.0,
+          "hold_s": 1.4,
+          "slot_s": 13.25,
+          "audio": "audio/interfaces-my-voice-lively-5473ac03be7b.wav",
+          "audio_sha256": "5905bee8fb19d15fbf7bd20222e1f4a47144d7f763ef8414a2c0cb5369652c1c"
+        }
+      ]
+    },
+    {
+      "id": "s03",
+      "title": "这一次，选择 Wi-Fi 接入",
+      "start_s": 26.041666666666664,
+      "duration_s": 14.958333333333334,
+      "lead_s": 0.20833333333333334,
+      "tail_s": 0.20833333333333334,
+      "cues": [
+        {
+          "id": "access",
+          "spoken_text": "有线接口通过网线连接，使用以太网标准。无线网卡通过无线电连接接入点，使用无线局域网标准。这次选择无线，蓝色有线接口不参与。",
+          "subtitle": "有线：IEEE 802.3\n无线：IEEE 802.11",
+          "start_s": 0.20833333,
+          "absolute_start_s": 26.25,
+          "duration_s": 13.106125,
+          "action_s": 6.0,
+          "hold_s": 1.4,
+          "slot_s": 14.541666666666666,
+          "audio": "audio/access-my-voice-lively-311c82a046f6.wav",
+          "audio_sha256": "1d4d36ac3d83d86bfd4ebf10dde086876045c43d278b4a7d8744871e72868bb0"
+        }
+      ]
+    },
+    {
+      "id": "s04",
+      "title": "先连接 Wi-Fi，再获取 IP",
+      "start_s": 41.0,
+      "duration_s": 16.625,
+      "lead_s": 0.20833333333333334,
+      "tail_s": 0.20833333333333334,
+      "cues": [
+        {
+          "id": "link",
+          "spoken_text": "先扫描并选择家里的无线网络，完成认证、关联和相应安全协商。无线链路可以传送数据了，但这不代表已经能访问网站。本例还没有可用的地址租约。",
+          "subtitle": "选择网络并建立无线连接\n链路接通 不等于能上网",
+          "start_s": 0.20833333,
+          "absolute_start_s": 41.20833333,
+          "duration_s": 14.796417,
+          "action_s": 6.0,
+          "hold_s": 1.4,
+          "slot_s": 16.208333333333332,
+          "audio": "audio/link-my-voice-lively-9aebc226e747.wav",
+          "audio_sha256": "452bc0362cc3e944a2bb8532ce5a57b421a75c06ebf410e05014d9648a14525c"
+        }
+      ]
+    },
+    {
+      "id": "s05",
+      "title": "已连 Wi-Fi，IP 还没获取？",
+      "start_s": 57.625,
+      "duration_s": 16.041666666666668,
+      "lead_s": 0.20833333333333334,
+      "tail_s": 0.20833333333333334,
+      "cues": [
+        {
+          "id": "needip",
+          "spoken_text": "看同一台电脑的状态：无线MAC地址已有，网络地址还没获取。接下来用动态主机配置协议，也就是 DHCP，获取网络地址、网关和域名解析器等参数。",
+          "subtitle": "本例没有可用租约\n用 DHCP 获取上网参数",
+          "start_s": 0.20833333,
+          "absolute_start_s": 57.83333333,
+          "duration_s": 14.206792,
+          "action_s": 6.0,
+          "hold_s": 1.4,
+          "slot_s": 15.625,
+          "audio": "audio/needip-my-voice-lively-7af7446c37e2.wav",
+          "audio_sha256": "ce3e8db3203660f058c64a7fbee93444c407690e851abbe0cb77c469094ce5b2"
+        }
+      ]
+    },
+    {
+      "id": "s06",
+      "title": "没有 IP，怎么先发出 DHCP？",
+      "start_s": 73.66666666666667,
+      "duration_s": 15.833333333333334,
+      "lead_s": 0.20833333333333334,
+      "tail_s": 0.20833333333333334,
+      "cues": [
+        {
+          "id": "mac",
+          "spoken_text": "放大刚才的无线网卡。它已经有MAC地址，不必等获取网络地址才能发帧。系统还可能为这个无线网络使用私有地址，所以它也不是永远不变的身份证。",
+          "subtitle": "同一块无线网卡 B\n先用已有 MAC 发送帧",
+          "start_s": 0.20833333,
+          "absolute_start_s": 73.875,
+          "duration_s": 13.980083,
+          "action_s": 6.0,
+          "hold_s": 1.4,
+          "slot_s": 15.416666666666666,
+          "audio": "audio/mac-my-voice-lively-1773e8c03bc0.wav",
+          "audio_sha256": "af692e52f62e24b1515e7709f7fdb3f093ccc9cb7a1fe75ce87ebf9030145459"
+        }
+      ]
+    },
+    {
+      "id": "s07",
+      "title": "DHCP 第一步：广播寻找服务器",
+      "start_s": 89.5,
+      "duration_s": 15.666666666666666,
+      "lead_s": 0.20833333333333334,
+      "tail_s": 0.20833333333333334,
+      "cues": [
+        {
+          "id": "discover",
+          "spoken_text": "电脑先广播动态主机配置请求，寻找配置服务器。它还没有可用的网络地址，所以这次源地址写全零，目标写广播地址；网卡地址仍然可以使用。",
+          "subtitle": "DHCP Discover：寻找服务器\n源 IP 此时可以是全零",
+          "start_s": 0.20833333,
+          "absolute_start_s": 89.70833333,
+          "duration_s": 13.811458,
+          "action_s": 5.0,
+          "hold_s": 1.4,
+          "slot_s": 15.25,
+          "audio": "audio/discover-my-voice-lively-c590ada88646.wav",
+          "audio_sha256": "f66b5b37ce4c4a2a4c3dc9613c7477d1cc9a20cea2461c80efc9b48b6779bd8f"
+        }
+      ]
+    },
+    {
+      "id": "s08",
+      "title": "DHCP 第二步：服务器提出 IP",
+      "start_s": 105.16666666666667,
+      "duration_s": 14.5,
+      "lead_s": 0.20833333333333334,
+      "tail_s": 0.20833333333333334,
+      "cues": [
+        {
+          "id": "offer",
+          "spoken_text": "配置服务器返回一个可提供的地址。这里画的是广播回应的例子，实际也可能使用单播。此时只是提议，还要由客户端请求，并获得服务器确认。",
+          "subtitle": "DHCP Offer：提出可用地址\n提议还不等于确认",
+          "start_s": 0.20833333,
+          "absolute_start_s": 105.375,
+          "duration_s": 12.664208,
+          "action_s": 5.0,
+          "hold_s": 1.4,
+          "slot_s": 14.083333333333334,
+          "audio": "audio/offer-my-voice-lively-6e472df5c170.wav",
+          "audio_sha256": "d4fff5505c6c21b7772d01f32ab4f7d82a3707ae70a54868e12c0614d7b44438"
+        }
+      ]
+    },
+    {
+      "id": "s09",
+      "title": "先完成 Request 和 ACK",
+      "start_s": 119.66666666666667,
+      "duration_s": 7.625,
+      "lead_s": 0.20833333333333334,
+      "tail_s": 0.20833333333333334,
+      "cues": [
+        {
+          "id": "requestack",
+          "spoken_text": "客户端广播请求选中的配置，服务器再确认。",
+          "subtitle": "Request 申请配置\nACK 确认配置",
+          "start_s": 0.20833333,
+          "absolute_start_s": 119.875,
+          "duration_s": 4.12,
+          "action_s": 5.4,
+          "hold_s": 1.8,
+          "slot_s": 7.208333333333333,
+          "audio": "audio/requestack-first-exchange.wav",
+          "audio_sha256": "43b2a410c89a8dc2659f26007f9a28c3f1862fe7d1254f5551ee19007ee5db31"
+        }
+      ]
+    },
+    {
+      "id": "s10",
+      "title": "把 DHCP 四步放慢连起来",
+      "start_s": 127.29166666666667,
+      "duration_s": 17.625,
+      "lead_s": 0.20833333333333334,
+      "tail_s": 0.20833333333333334,
+      "cues": [
+        {
+          "id": "dhcp_recap",
+          "spoken_text": "把刚才的 DHCP 四步按时间回放。第一步，发现，电脑广播寻找服务器。第二步，提供，服务器提出一个地址。第三步，请求，电脑申请这个配置。第四步，确认，服务器同意使用。",
+          "subtitle": "Discover 发现  Offer 提供\nRequest 请求  ACK 确认",
+          "start_s": 0.20833333,
+          "absolute_start_s": 127.5,
+          "duration_s": 15.088833,
+          "action_s": 15.6,
+          "hold_s": 1.6,
+          "slot_s": 17.208333333333332,
+          "audio": "audio/dhcp_recap-my-voice-lively-92eddd1fe2ca.wav",
+          "audio_sha256": "6343f20003eaa145a61473bd5b34f17fda7605a4fb02cc39ad045aec9ddbf14e"
+        }
+      ]
+    },
+    {
+      "id": "s11",
+      "title": "DHCP 消息怎样找到两端程序？",
+      "start_s": 144.91666666666669,
+      "duration_s": 15.75,
+      "lead_s": 0.20833333333333334,
+      "tail_s": 0.20833333333333334,
+      "cues": [
+        {
+          "id": "udp_ports",
+          "spoken_text": "这四个 DHCP 消息，都装在 UDP，用户数据报协议里传送。再用端口找到对应程序：客户端是六十八，服务器是六十七。配置确认以后，再继续访问网站。",
+          "subtitle": "UDP 用户数据报协议\n客户端68  服务端67",
+          "start_s": 0.20833333,
+          "absolute_start_s": 145.125,
+          "duration_s": 13.717333,
+          "action_s": 6.0,
+          "hold_s": 1.6,
+          "slot_s": 15.333333333333334,
+          "audio": "audio/udp_ports-my-voice-lively-e56a43e152de.wav",
+          "audio_sha256": "f10c23a4a3b7b1d43497a326af2f2ebd3c4d385478a0f21da95ee2bf9f0ed01a"
+        }
+      ]
+    },
+    {
+      "id": "s12",
+      "title": "参数齐了，但还不知道网站 IP",
+      "start_s": 160.66666666666669,
+      "duration_s": 17.833333333333332,
+      "lead_s": 0.20833333333333334,
+      "tail_s": 0.20833333333333334,
+      "cues": [
+        {
+          "id": "configuration",
+          "spoken_text": "确认之后，电脑得到 IP 地址、子网掩码、默认网关，以及 DNS 解析器的地址。地址还有租期。现在参数齐了，但还不知道网站的 IP，下一步再问 DNS。",
+          "subtitle": "已有自己的 IP 和上网参数\n下一步查网站的 IP",
+          "start_s": 0.20833333,
+          "absolute_start_s": 160.875,
+          "duration_s": 15.815083,
+          "action_s": 6.0,
+          "hold_s": 1.6,
+          "slot_s": 17.416666666666668,
+          "audio": "audio/configuration-my-voice-lively-0a5d7f958dbc.wav",
+          "audio_sha256": "d235fd06978e846576bc7234ec4db2faba6cd65ad889065c3a6672d59c9a3f42"
+        }
+      ]
+    },
+    {
+      "id": "s13",
+      "title": "为什么问 DNS 之前，先找网关？",
+      "start_s": 178.50000000000003,
+      "duration_s": 23.458333333333332,
+      "lead_s": 0.20833333333333334,
+      "tail_s": 0.20833333333333334,
+      "cues": [
+        {
+          "id": "why_dns",
+          "spoken_text": "DNS，域名系统，负责把网站主机名解析成 IP。浏览器现在有网站名字，却没有它的 IP。本例的 DNS 解析器在别的网段，查询得先交给网关。网关 IP 已经有了；如果缓存里没有网关的 MAC，就先用 ARP 查询。",
+          "subtitle": "本例 DNS 解析器在远端\n先确定下一跳的 MAC",
+          "start_s": 0.20833333,
+          "absolute_start_s": 178.70833333,
+          "duration_s": 21.441167,
+          "action_s": 6.0,
+          "hold_s": 1.6,
+          "slot_s": 23.041666666666668,
+          "audio": "audio/why_dns-my-voice-lively-bc56af51cb78.wav",
+          "audio_sha256": "9ad7e922f60ef0979b7c05feb8670a222d3af90e3c8f3863546472753caaab8a"
+        }
+      ]
+    },
+    {
+      "id": "s14",
+      "title": "ARP：用网关 IP 找到它的 MAC",
+      "start_s": 201.95833333333337,
+      "duration_s": 18.583333333333332,
+      "lead_s": 0.20833333333333334,
+      "tail_s": 0.20833333333333334,
+      "cues": [
+        {
+          "id": "arp",
+          "spoken_text": "ARP，地址解析协议。在本地链路上问：谁拥有网关这个 IP？网关回复自己的 MAC 地址。电脑把对应关系记入邻居缓存。这样，就知道下一跳的帧应该交给谁了。它查的不是远处网站的 MAC 地址。",
+          "subtitle": "ARP 地址解析协议\n查询本地下一跳的 MAC",
+          "start_s": 0.20833333,
+          "absolute_start_s": 202.16666667,
+          "duration_s": 16.542292,
+          "action_s": 6.0,
+          "hold_s": 1.6,
+          "slot_s": 18.166666666666668,
+          "audio": "audio/arp-my-voice-lively-11bd2227ad0a-clean.wav",
+          "audio_sha256": "cab1f95fb9971e529c0e0750ca1714af16f9ee19ef87509a4dd12af597e86f75"
+        }
+      ]
+    },
+    {
+      "id": "s15",
+      "title": "DNS：取回网站 IP，再继续访问",
+      "start_s": 220.5416666666667,
+      "duration_s": 20.666666666666668,
+      "lead_s": 0.20833333333333334,
+      "tail_s": 0.20833333333333334,
+      "cues": [
+        {
+          "id": "dns",
+          "spoken_text": "下一跳找到了，再把 DNS 查询发给解析器。本例使用 UDP，目标端口五十三。解析器回传网站的 IP。DNS 也能用 TCP；这里画的是传输方式的对照。接下来访问网页，就会用到 TCP。",
+          "subtitle": "DNS 域名系统\n本例使用 UDP 53 查询",
+          "start_s": 0.20833333,
+          "absolute_start_s": 220.75,
+          "duration_s": 18.617458,
+          "action_s": 6.0,
+          "hold_s": 1.6,
+          "slot_s": 20.25,
+          "audio": "audio/dns-my-voice-lively-d297e075338d.wav",
+          "audio_sha256": "05b3e65b5c0b3c918831de41e73addc324245bff598fcdc0ac530ae01c2deeef"
+        }
+      ]
+    },
+    {
+      "id": "s16",
+      "title": "TCP、TLS、HTTP 怎样接力？",
+      "start_s": 241.20833333333337,
+      "duration_s": 24.125,
+      "lead_s": 0.20833333333333334,
+      "tail_s": 0.20833333333333334,
+      "cues": [
+        {
+          "id": "web",
+          "spoken_text": "网站 IP 到手后，本例先用 TCP，传输控制协议，建立可靠连接；再用 TLS 协商加密会话；然后发送 HTTP 网页请求。服务器返回内容，浏览器才把页面画出来。握手细节沿用上一集，这里只看先后关系。",
+          "subtitle": "TCP 建连接  TLS 协商加密\nHTTP 请求和网页响应",
+          "start_s": 0.20833333,
+          "absolute_start_s": 241.41666667,
+          "duration_s": 22.092583,
+          "action_s": 6.0,
+          "hold_s": 1.6,
+          "slot_s": 23.708333333333332,
+          "audio": "audio/web-my-voice-lively-87fcc55a061e.wav",
+          "audio_sha256": "abf4fee419735549bfc6e92b7999b90568cbe9821a446636f336c901bed48c98"
+        }
+      ]
+    },
+    {
+      "id": "s17",
+      "title": "暂停主线，放大刚才的数据包",
+      "start_s": 265.33333333333337,
+      "duration_s": 15.5,
+      "lead_s": 0.20833333333333334,
+      "tail_s": 0.20833333333333334,
+      "cues": [
+        {
+          "id": "replay",
+          "spoken_text": "网页已经出现。现在暂停主线，回放刚才的域名查询：无线电上传送的帧里面，装了什么？每一层分别做什么？这是局部回放，不是重新连接一次。",
+          "subtitle": "暂停当前主线\n回放刚才的 DNS 查询",
+          "start_s": 0.20833333,
+          "absolute_start_s": 265.54166667,
+          "duration_s": 13.6685,
+          "action_s": 6.0,
+          "hold_s": 1.4,
+          "slot_s": 15.083333333333334,
+          "audio": "audio/replay-my-voice-lively-60f6e9997ab1.wav",
+          "audio_sha256": "2665220eba3b1821feffc883ff4888b9da5adac7e3df18b02553a6634c94ceff"
+        }
+      ]
+    },
+    {
+      "id": "s18",
+      "title": "无线帧，不是换皮的以太网帧",
+      "start_s": 280.83333333333337,
+      "duration_s": 15.958333333333334,
+      "lead_s": 0.20833333333333334,
+      "tail_s": 0.20833333333333334,
+      "cues": [
+        {
+          "id": "frame",
+          "spoken_text": "这里是无线局域网帧，不是以太网帧。电脑先把帧交给接入点，帧里还可以标出最终的链路目的地址。地址解析消息和网络数据包，分别用不同类型标识。",
+          "subtitle": "无线先交给 AP\nARP 与 IPv4 用不同类型标识",
+          "start_s": 0.20833333,
+          "absolute_start_s": 281.04166667,
+          "duration_s": 14.104833,
+          "action_s": 6.0,
+          "hold_s": 1.4,
+          "slot_s": 15.541666666666666,
+          "audio": "audio/frame-my-voice-lively-0481590a6b08.wav",
+          "audio_sha256": "b774e96be4a5e4b2fc0de63a3506042317a546c9eb0e5375bea11d12e44e0fe9"
+        }
+      ]
+    },
+    {
+      "id": "s19",
+      "title": "把同一条 DNS 查询逐层拆开",
+      "start_s": 296.7916666666667,
+      "duration_s": 22.125,
+      "lead_s": 0.20833333333333334,
+      "tail_s": 0.20833333333333334,
+      "cues": [
+        {
+          "id": "layers",
+          "spoken_text": "把这条 DNS 查询拆开。应用层是 DNS；传输层是 UDP，写端口；网络层是 IP，写地址；链路层封装无线帧，交给接入点；物理层发送无线电信号。接入点是本段接收者，远处解析器仍是 IP 目的地。",
+          "subtitle": "同一查询的五层分工\n每层只承担自己的工作",
+          "start_s": 0.20833333,
+          "absolute_start_s": 297.0,
+          "duration_s": 20.071917,
+          "action_s": 6.0,
+          "hold_s": 1.6,
+          "slot_s": 21.708333333333332,
+          "audio": "audio/layers-my-voice-lively-4e7df420873b.wav",
+          "audio_sha256": "b489591c99a8bf9cda70beaca7764419038ad9dab31514c9deb4a7ea6cfb762a"
+        }
+      ]
+    },
+    {
+      "id": "s20",
+      "title": "UDP 和 TCP，放慢做一次对比",
+      "start_s": 318.9166666666667,
+      "duration_s": 21.75,
+      "lead_s": 0.20833333333333334,
+      "tail_s": 0.20833333333333334,
+      "cues": [
+        {
+          "id": "udp",
+          "spoken_text": "两种常用的传输选择，再放慢比较。UDP，用户数据报协议，按独立报文交付，自身不保证可靠和顺序。TCP，传输控制协议，提供有序字节流，处理确认和重传。它们是并列选择，不是先走 UDP 再走 TCP。",
+          "subtitle": "UDP 独立数据报\nTCP 有序可靠字节流",
+          "start_s": 0.20833333,
+          "absolute_start_s": 319.125,
+          "duration_s": 19.71375,
+          "action_s": 6.0,
+          "hold_s": 1.6,
+          "slot_s": 21.333333333333332,
+          "audio": "audio/udp-my-voice-lively-2230827f5e54.wav",
+          "audio_sha256": "713939ff89b5819302bebd12e1d6729703c6beba7927b34d7a68b192f5ae3d66"
+        }
+      ]
+    },
+    {
+      "id": "s21",
+      "title": "回到现在：关闭笔记本 Wi-Fi",
+      "start_s": 340.6666666666667,
+      "duration_s": 15.833333333333334,
+      "lead_s": 0.20833333333333334,
+      "tail_s": 0.20833333333333334,
+      "cues": [
+        {
+          "id": "unplug",
+          "spoken_text": "现在关闭笔记本的无线接口。这条无线链路不能再传数据，系统得知接口断开。对比拔网线：一个是关闭无线，一个是断开有线，都影响了当前接入路径。",
+          "subtitle": "关闭 Wi-Fi → 无线链路断开\n对照：拔线 → 有线链路断开",
+          "start_s": 0.20833333,
+          "absolute_start_s": 340.875,
+          "duration_s": 13.979083,
+          "action_s": 6.0,
+          "hold_s": 1.4,
+          "slot_s": 15.416666666666666,
+          "audio": "audio/unplug-my-voice-lively-fb1473dce005.wav",
+          "audio_sha256": "4a8182c1a3930eb5e1c20ed550f3743f0c32a74d54b051335c85e40b28750eed"
+        }
+      ]
+    },
+    {
+      "id": "s22",
+      "title": "页面仍在，新请求受到了影响",
+      "start_s": 356.5,
+      "duration_s": 16.875,
+      "lead_s": 0.20833333333333334,
+      "tail_s": 0.20833333333333334,
+      "cues": [
+        {
+          "id": "effects",
+          "spoken_text": "已经画出来的页面可以仍在屏幕上，新请求却可能等待或失败。拔线也不等于发出一次正常的连接关闭；应用什么时候报错，取决于系统通知、重传和超时等行为。",
+          "subtitle": "已显示内容可能保留\n新请求可能等待或失败",
+          "start_s": 0.20833333,
+          "absolute_start_s": 356.70833333,
+          "duration_s": 15.036583,
+          "action_s": 5.0,
+          "hold_s": 1.4,
+          "slot_s": 16.458333333333332,
+          "audio": "audio/effects-my-voice-lively-cb012f6181b1.wav",
+          "audio_sha256": "e621f0938e2f8db7e747ba518dda04c70bd50ec7ce4b773e940750b5860a4e88"
+        }
+      ]
+    },
+    {
+      "id": "s23",
+      "title": "重新连接 Wi-Fi，检查旧配置",
+      "start_s": 373.375,
+      "duration_s": 15.666666666666666,
+      "lead_s": 0.20833333333333334,
+      "tail_s": 0.20833333333333334,
+      "cues": [
+        {
+          "id": "replug",
+          "spoken_text": "重新打开无线，连回刚才的网络，先恢复接入。系统再检查已有配置，仍有效的地址可能继续使用；失效时才需要重新获取。重连不等于必定换新地址。",
+          "subtitle": "连回原来的 Wi-Fi\n检查旧配置 不一定换 IP",
+          "start_s": 0.20833333,
+          "absolute_start_s": 373.58333333,
+          "duration_s": 13.825792,
+          "action_s": 6.0,
+          "hold_s": 1.4,
+          "slot_s": 15.25,
+          "audio": "audio/replug-my-voice-lively-8ca080aa81d3.wav",
+          "audio_sha256": "8b0687d9f1ca949bb7ca3b1bb6e435ff6a715dc7a2033bfcd2294f4bbe886fd8"
+        }
+      ]
+    },
+    {
+      "id": "s24",
+      "title": "主线结束，再看历史上的 RARP",
+      "start_s": 389.0416666666667,
+      "duration_s": 16.708333333333332,
+      "lead_s": 0.20833333333333334,
+      "tail_s": 0.20833333333333334,
+      "cues": [
+        {
+          "id": "rarp_bridge",
+          "spoken_text": "无线连接、访问和恢复的主线已经走完。下面换一台历史场景里的有线无盘工作站，演示反向地址解析：知道自己的MAC地址，向服务器询问自己的网络地址。",
+          "subtitle": "切换历史设备 C\nRARP 不接在 DHCP 后执行",
+          "start_s": 0.20833333,
+          "absolute_start_s": 389.25,
+          "duration_s": 14.882875,
+          "action_s": 6.0,
+          "hold_s": 1.4,
+          "slot_s": 16.291666666666668,
+          "audio": "audio/rarp_bridge-my-voice-lively-7a94ce7ef2eb.wav",
+          "audio_sha256": "bb35d378962398eca26d07bca769306a9f3ca2354413c2df5f2fa796dc0f2b5f"
+        }
+      ]
+    },
+    {
+      "id": "s25",
+      "title": "RARP：历史上的 MAC 查自身 IP",
+      "start_s": 405.75,
+      "duration_s": 20.916666666666668,
+      "lead_s": 0.20833333333333334,
+      "tail_s": 0.20833333333333334,
+      "cues": [
+        {
+          "id": "rarp",
+          "spoken_text": "最后看一个历史对照。RARP，反向地址解析协议，是设备拿自己的 MAC，向本地服务器询问自己的 IP。服务器查表再回复。它不属于刚才 DHCP 联网主线，也不会接在 DHCP 后面再执行。",
+          "subtitle": "RARP 反向地址解析协议\n历史设备查询自己的 IP",
+          "start_s": 0.20833333,
+          "absolute_start_s": 405.95833333,
+          "duration_s": 18.860125,
+          "action_s": 6.0,
+          "hold_s": 1.6,
+          "slot_s": 20.5,
+          "audio": "audio/rarp-my-voice-lively-cb06c7766e57.wav",
+          "audio_sha256": "efce7940a114f3d70e88ad52f9be0c4a5a7546d4d1997c2d11b23cfaaf521971"
+        }
+      ]
+    },
+    {
+      "id": "s26",
+      "title": "回头看，各个协议补上哪一步？",
+      "start_s": 426.6666666666667,
+      "duration_s": 20.041666666666668,
+      "lead_s": 0.20833333333333334,
+      "tail_s": 0.20833333333333334,
+      "cues": [
+        {
+          "id": "ending",
+          "spoken_text": "回头看：无线接入靠八零二点一一，DHCP 准备参数，ARP 找到邻居，DNS 查网站 IP，UDP 和 TCP 负责传输，IP 支持跨网转发。换成有线时，接入方式不同，上层仍然这样配合。",
+          "subtitle": "接入方式可以不同\n协议的分工仍然清楚",
+          "start_s": 0.20833333,
+          "absolute_start_s": 426.875,
+          "duration_s": 18.003917,
+          "action_s": 6.0,
+          "hold_s": 1.6,
+          "slot_s": 19.625,
+          "audio": "audio/ending-my-voice-lively-ad7ecf117b00.wav",
+          "audio_sha256": "fcb7e5f0e6c41727b1a5f5d36afa21bf18e64b213365dde95cc7e9a976ed88c8"
+        }
+      ]
+    }
+  ]
+}
