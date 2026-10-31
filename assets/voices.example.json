@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "default_profile": "example-voice",
+  "runtime": {
+    "python": "/absolute/path/to/tts-venv/bin/python",
+    "model_id": "Qwen/Qwen3-TTS-12Hz-1.7B-Base",
+    "model_path": "/absolute/path/to/local/base-model",
+    "device": "auto",
+    "attn_implementation": "sdpa"
+  },
+  "profiles": {
+    "example-voice": {
+      "label": "自定义参考音色",
+      "backend": "qwen3-tts-base",
+      "reference_audio": "~/.local/share/tech-explainer-video/voices/example/reference.wav",
+      "reference_sha256": "replace-with-the-reference-file-sha256",
+      "reference_text": "替换为与参考录音严格对应的转写文字。",
+      "generation": {
+        "language": "Chinese",
+        "non_streaming_mode": true,
+        "max_new_tokens": 384
+      },
+      "processing": {
+        "tempo": 1.0,
+        "pitch_semitones": 0
+      }
+    }
+  }
+}

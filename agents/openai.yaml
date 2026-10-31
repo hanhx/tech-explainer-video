@@ -1,0 +1,4 @@
+interface:
+  display_name: "技术科普视频导演"
+  short_description: "以导演视角完成技术科普的分镜、视觉风格、引擎选择、配音同步与审片验收"
+  default_prompt: "请使用 $tech-explainer-video 制作可编辑的技术科普视频，先写导演阐述和分镜，再按镜头需求选择风格与引擎，完成配音与审片。"

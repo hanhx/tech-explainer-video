@@ -1,0 +1,56 @@
+{
+  "fps": 30,
+  "narration": false,
+  "purpose": "静音 starter 与动态预演示例；配音任务应准备真实音频并设 narration=true",
+  "sources": ["https://docs.python.org/3/c-api/refcounting.html"],
+  "scenes": [
+    {
+      "id": "detail",
+      "title": "少一个引用，对象就消失吗？",
+      "lead_s": 0.2,
+      "tail_s": 0.2,
+      "cues": [
+        {
+          "id": "object",
+          "spoken_text": "先看对象 X，它的引用计数是二。",
+          "subtitle": "先看对象 X：引用计数为 2",
+          "estimated_s": 1.8,
+          "action_s": 0.8,
+          "hold_s": 0.5
+        }
+      ]
+    },
+    {
+      "id": "context",
+      "title": "展开：两个引用指向同一对象",
+      "lead_s": 0.2,
+      "tail_s": 0.2,
+      "cues": [
+        {
+          "id": "references",
+          "spoken_text": "展开来看，引用 A 和引用 B 都指向同一个对象。",
+          "subtitle": "A 和 B 都引用对象 X",
+          "estimated_s": 2.0,
+          "action_s": 1.2,
+          "hold_s": 0.6
+        }
+      ]
+    },
+    {
+      "id": "comparison",
+      "title": "移除 A，观察什么变了、什么没变",
+      "lead_s": 0.2,
+      "tail_s": 0.4,
+      "cues": [
+        {
+          "id": "remove-a",
+          "spoken_text": "移除 A 的引用，计数变成一；B 还引用它，对象仍然存在。",
+          "subtitle": "A 被移除；B 仍引用 X，对象保留",
+          "estimated_s": 2.4,
+          "action_s": 0.8,
+          "hold_s": 0.8
+        }
+      ]
+    }
+  ]
+}

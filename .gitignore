@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+.venv/
+venv/
+.local/
+audio/
+out/
+models/
+voices.json
+voice-profile.json
+.env
+.env.*
+!.env.example
