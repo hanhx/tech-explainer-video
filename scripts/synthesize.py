@@ -174,6 +174,8 @@ def controller(args):
         data['voice_profile'] = dict(id=prof['id'], reference_sha256=prof['reference_sha256'],
                                      profile_fingerprint=prof['profile_fingerprint'],
                                      processing=prof.get('processing', {}))
+        if prof.get('delivery_style'):
+            data['voice_profile']['delivery_style'] = prof['delivery_style']
     tmp = project_path.with_name('project.json.new')
     tmp.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n')
     tmp.replace(project_path)

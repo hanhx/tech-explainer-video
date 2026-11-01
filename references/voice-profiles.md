@@ -88,3 +88,11 @@ python3 "$SKILL/scripts/process_narration.py" source.wav clean-variant.wav
 它不再变速，不覆盖源文件或已存在的输出。新生成原始文件在项目 `.local/tts-raw/` 中保留，分享包仍只含实际逐句成片旁白；个人参考录音和试听基准留在本机。个人基准文件及其 SHA256/反馈范围可记录于本机 profile 的 `denoise_review`，不写进通用 Skill。
 
 这次认可覆盖上述 B 试听的降噪方向，不代表未来新句或整片人工听音通过。新片继续检查清晰度、齿音、收尾和连续听感；如果变闷或产生水声，保留原句并局部调整，不把参数成功执行当成音质通过。
+
+## 可选讲述与母带预设
+
+个人 profile 可保存 `delivery_style: "conversational-explainer-v1"` 及 `processing.mastering: {"preset": "speech-mobile-v1"}`。讲述标记指导 Agent 写短问句、转折与正常讲解，不直接传给 Qwen Base；不能声称模型支持额外 `instruct`。tempo 采用该用户实际选定值，不能对其他声音统一改速。
+
+合成成功后，processing 与 delivery_style 写入新工程的 voice_profile。母带偏好参与声音条件指纹，但合成阶段只执行已有 tempo/denoise；整段母带处理在渲染阶段执行。`render_project.py` 优先项目显式 `audio_mastering`（null 可关闭），否则读取工程内 voice_profile.processing.mastering；不在渲染已有工程时擅自读取本机新默认来重处理它。其他声音未配置时保留原行为。
+
+详见 [手机人声方案](voice-mobile.md)。个人审批记录、媒体位置及录音仍只留在本机配置，不随 Skill 发布。

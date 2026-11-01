@@ -67,10 +67,21 @@ def verify(video, timeline_path=None, align=False):
             full = np.frombuffer(run(['ffmpeg', '-v', 'error', '-i', str(video), '-vn',
                                       '-ar', str(rate), '-ac', '1', '-f', 'f32le', '-']).stdout, dtype='<f4')
             results = []
+            master = timeline.get('audio_mastering')
+            master_pcm = None
+            if master:
+                master_path = root / master['file']
+                if hashlib.sha256(master_path.read_bytes()).hexdigest() != master['sha256']:
+                    raise ValueError('Mastered narration hash mismatch')
+                master_pcm = np.frombuffer(run(['ffmpeg', '-v', 'error', '-i', str(master_path),
+                    '-ar', str(rate), '-ac', '1', '-f', 'f32le', '-']).stdout, dtype='<f4')
+                report['mastered_reference_hash_checked'] = True
             for cue in cues:
                 ref = np.frombuffer(run(['ffmpeg', '-v', 'error', '-i', str(root / cue['audio']),
                                          '-ar', str(rate), '-ac', '1', '-f', 'f32le', '-']).stdout, dtype='<f4')
                 start = cue['start_s']
+                if master_pcm is not None:
+                    ref = master_pcm[round(start*rate):round((start+cue['duration_s'])*rate)]
                 left = max(0, round((start - .15) * rate))
                 window = full[left:min(len(full), round((start + .15) * rate) + len(ref))]
                 if len(ref) < 2 or len(window) < len(ref) or np.linalg.norm(ref) < 1e-6:

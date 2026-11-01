@@ -2,7 +2,7 @@
 name: tech-explainer-video
 description: "以导演、视觉和分镜专家的方式制作或修改技术科普视频（AI、软件、网络、数据库、算法、系统架构）：知识核实、导演阐述、分镜与镜头语言、风格与引擎选择（Manim / Remotion / 逐帧绘制等按镜头需求选择）、配音生成、时间轴同步、审片与验收。用户说“做个讲解/科普视频”“把这个原理做成动画”“给视频配音/换声/修读音”时使用。只讨论概念或方法时只讨论，不建工程；用户指定引擎时尊重其选择。"
 metadata:
-  version: "0.2.7"
+  version: "0.2.8"
 ---
 
 # 技术科普视频（导演视角）
@@ -42,12 +42,14 @@ metadata:
 - 在整片高清前，用实际声音预演最拥挤、动态经过文字、镜头推拉和状态更新的片段。修片只重做受影响范围，已有明确选择不重复确认。
 
 ### 4. 配音 → [audio-and-review.md](references/audio-and-review.md)、[voice-profiles.md](references/voice-profiles.md)
+- 口播分别设计讲述感和手机清晰度：短问句、转折与重点停顿不能只靠提速/感叹号；profile 的 `delivery_style` 用于讲稿与试听，不作为 Base 模型不支持的情绪指令。已选方案及自动接入见 [手机人声方案](references/voice-mobile.md)。
 - 声音优先级：本轮用户指定 > 工程 `voice_profile.id` > 本机 `default_profile`。`python3 $SKILL/scripts/voice_profiles.py list` 查看可用声音。
 - 生成：`python3 $SKILL/scripts/synthesize.py $PROJECT [--profile ID] [--only CUE...] [--dry-run]`
   - 逐 cue 生成到 `audio/`，缓存键含声音指纹+文本+种子；`locked_sha256` 的 cue 永不重生成；不改 `spoken_text`/字幕。
   - 多角色对话：在 cue 上写 `voice: <profile id>`。读音修复：写 `tts_text`（仅送 TTS），用 `--only` 只重做该句。
   - 可用项目级 `pronunciations` 统一已选术语读法；显式 `tts_text` 优先，不自动把所有大写词拆字母。中断后复用完整原始 WAV，只补缺失生成；见 [iteration-and-preflight.md](references/iteration-and-preflight.md)。
 - 本机 profile 配置 `processing.denoise` 时，合成脚本在变速后自动执行已选降噪预设，保留 `.local/tts-raw/` 原始生成音频并输出处理溯源；旧锁定音频不动。手工处理已有 WAV 用 `scripts/process_narration.py`，详见 [voice-profiles.md](references/voice-profiles.md#降噪后处理)。
+- profile 的 `processing.mastering` 在新工程合成时写入项目；`render_project.py` 自动对整段纯人声执行一次预设，再混背景声，保存源/处理音轨哈希和最终 AAC 响度。已有工程不自动迁移；可显式设置项目 `audio_mastering`，其他引擎按同一参考接入 `master_voice.py`，不要在后面再套旧响度链。
 - 没有已登记声音时，使用用户提供的音频或其他 TTS 产出逐句 WAV；缺音频就明确阻塞，不静默换系统音色。
 - 生成 ≠ 听感通过。给用户可点击的音频链接试听；认可后把文件 SHA256 写入 `locked_sha256`。平翘舌/术语读错按 audio-and-review.md 的"中文读音局部修复"处理。
 

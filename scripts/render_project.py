@@ -10,6 +10,7 @@ import subprocess
 import sys
 import uuid
 from build_timeline import build
+from master_voice import select_mastering, mix_cues, process as master_voice, measure, digest
 
 
 def stamp(seconds):
@@ -19,6 +20,8 @@ def stamp(seconds):
 
 def render(args):
     root = args.project.resolve()
+    project = json.loads((root / 'project.json').read_text())
+    mastering = select_mastering(project)
     timeline = build(root / 'project.json')
     (root / 'timeline.json').write_text(json.dumps(timeline, ensure_ascii=False, indent=2) + '\n')
     if not (root / 'scene.py').is_file():
@@ -82,7 +85,18 @@ def render(args):
             raise ValueError('Narration required but rendered source has no audio')
         temporary = run / 'video.new.mp4'
         command = ['ffmpeg', '-y', '-v', 'error', '-i', str(source), '-map', '0:v:0', '-c:v', 'copy']
-        music = json.loads((root / 'project.json').read_text()).get('music') or {}
+        music = project.get('music') or {}
+        if timeline['narration'] and mastering:
+            duration = max(float(s.get('duration', 0)) for s in probe['streams'])
+            raw = run / 'narration-raw.wav'
+            mastered = run / 'narration-master.wav'
+            mix_cues(root, actual['cues'], duration, raw)
+            master_voice(raw, mastered, mastering['preset'])
+            # Map narration from its lossless master. The scene's encoded audio is unused.
+            command = ['ffmpeg', '-y', '-v', 'error', '-i', str(source), '-i', str(mastered), '-map', '0:v:0', '-c:v', 'copy']
+            voice = '1:a'
+        else:
+            voice = '0:a'
         if timeline['narration'] and music.get('file') and args.mode == 'final':
             # Optional BGM: looped, attenuated, ducked under narration, then loudness-normalised.
             track = (root / music['file']).resolve()
@@ -91,19 +105,31 @@ def render(args):
             gain = float(music.get('gain_db', -22))
             duck = ('[m][v]sidechaincompress=threshold=0.03:ratio=8:attack=20:release=400[md];'
                     if music.get('duck', True) else '[m]anull[md];[v]anullsink;')
-            graph = (f'[1:a]aloop=loop=-1:size=2000000000,volume={gain}dB,afade=t=in:d=1[m];'
-                     '[0:a]asplit=2[v][vm];' + duck +
-                     '[vm][md]amix=inputs=2:duration=first:normalize=0,'
-                     'loudnorm=I=-17:TP=-1.5:LRA=11[a]')
-            command = command[:6] + ["-i", str(track)] + command[6:]
+            graph = (f'[{2 if mastering else 1}:a]aloop=loop=-1:size=2000000000,volume={gain}dB,afade=t=in:d=1[m];'
+                     f'[{voice}]asplit=2[v][vm];' + duck +
+                     '[vm][md]amix=inputs=2:duration=first:normalize=0,' +
+                     (f'alimiter=limit=0.77:level=false:latency=true,aresample=48000,apad=whole_len={round(duration*48000)},atrim=end_sample={round(duration*48000)}[a]' if mastering else
+                      'loudnorm=I=-17:TP=-1.5:LRA=11[a]'))
+            # Append inputs before output mapping; retain input numbering above.
+            if mastering:
+                command = ['ffmpeg', '-y', '-v', 'error', '-i', str(source), '-i', str(mastered), '-i', str(track), '-map', '0:v:0', '-c:v', 'copy']
+            else:
+                command = command[:6] + ['-i', str(track)] + command[6:]
             command += ['-filter_complex', graph, '-map', '[a]', '-c:a', 'aac', '-ar', '48000']
         elif timeline['narration']:
-            command += ['-map', '0:a:0', '-c:a', 'aac', '-ar', '48000',
-                        '-af', 'loudnorm=I=-17:TP=-1.5:LRA=11']
+            command += ['-map', voice, '-c:a', 'aac', '-ar', '48000']
+            if mastering:
+                command += ['-b:a', '192k']
+            if not mastering:
+                command += ['-af', 'loudnorm=I=-17:TP=-1.5:LRA=11']
         else:
             command += ['-an']
         subprocess.run(command + ['-movflags', '+faststart', str(temporary)], check=True)
         subprocess.run(['ffmpeg', '-v', 'error', '-i', str(temporary), '-f', 'null', '-'], check=True)
+        if timeline['narration'] and mastering:
+            actual['audio_mastering'] = dict(preset=mastering['preset'],
+                file=os.path.relpath(mastered, root), sha256=digest(mastered),
+                final_aac_measurement=measure(temporary))
         temporary.replace(output / 'video.mp4')
     (output / 'actual-timeline.json').write_text(json.dumps(actual, ensure_ascii=False, indent=2) + '\n')
     captions = []

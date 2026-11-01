@@ -73,6 +73,8 @@ def resolve(path,choice=None):
         raise ValueError(f'{name}: tempo must be a finite number from 0.5 to 2')
     from process_narration import validate_denoise
     validate_denoise(processing.get('denoise'))
+    from master_voice import validate_mastering
+    validate_mastering(processing.get('mastering'))
     settings=profile.get('generation',{})
     if not isinstance(settings,dict):raise ValueError(f'{name}: generation must be a mapping')
     if 'speaker' in settings or 'instruct' in settings:
@@ -80,6 +82,8 @@ def resolve(path,choice=None):
     conditions=dict(id=name,backend=profile['backend'],model_id=runtime.get('model_id'),
                     reference_sha256=digest,reference_text=transcript,
                     generation=settings,processing=processing,default_seed=profile.get('default_seed',1234))
+    if profile.get('delivery_style'):
+        conditions['delivery_style']=profile['delivery_style']
     fingerprint=hashlib.sha256(json.dumps(conditions,sort_keys=True,ensure_ascii=False).encode()).hexdigest()
     return dict(**conditions,label=profile.get('label',name),reference_audio=str(ref),
                 runtime={**runtime,'python':str(python),'model_path':str(model)},
