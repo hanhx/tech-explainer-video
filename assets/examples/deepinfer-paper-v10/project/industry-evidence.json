@@ -1,0 +1,16 @@
+{
+  "facts": [
+    {
+      "claim": "Production inference framework and partial open-source service scope",
+      "source": "https://github.com/deepseek-ai/DeepInfer",
+      "local": "README.md"
+    },
+    {
+      "claim": "Efficiency objectives at latency constraints; lower compute/energy per service",
+      "source": "https://github.com/deepseek-ai/DeepInfer/blob/main/doc/inference_deployment_qa.md",
+      "local": "doc/inference_deployment_qa.md"
+    }
+  ],
+  "interpretation": "Reused efficiency methods may affect inference cost competition; no observed US-company adoption, fear, pricing or market result is asserted",
+  "no_runtime_measurement": true
+}

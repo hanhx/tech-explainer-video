@@ -51,3 +51,5 @@ MANIM_VOICE_CONFIG
 修改已有视频时，先确定受影响镜头和声音，复用不受影响的实际文件；术语读法、动态遮挡和跨镜状态应在整片高清前通过局部实际配音预演检查。
 
 完整解码、哈希、波形对齐与布局筛查分别提供技术证据，不能代替主观听音或观众理解。实际评测范围见 [`references/evals.md`](references/evals.md)。
+
+本次DeepInfer参考提供可克隆的明亮纸张风格工程、三项可见滑动导航、原生曲线图标及声音/节奏修复案例，见 [`references/example-deepinfer.md`](references/example-deepinfer.md)。仓库不分发该片声音/视频；无配音也能校准真实画面和输出静音动态预演。

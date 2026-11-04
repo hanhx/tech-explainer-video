@@ -1,0 +1,34 @@
+{
+  "id": "deepinfer-paper-v10",
+  "kind": "revised reference, not whole-film user acceptance",
+  "format": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30
+  },
+  "duration_s": 215.2,
+  "cue_count": 27,
+  "narration": {
+    "distributed_in_git": false,
+    "local_exact_wavs": true,
+    "new_tts": false
+  },
+  "human_feedback": {
+    "B_audition": "B 更自然，音量合适",
+    "duration_s": 18.7333,
+    "scope": [
+      "saving-promise",
+      "opening",
+      "roles"
+    ],
+    "full_film_listening_accepted": false,
+    "full_film_visual_accepted": false
+  },
+  "navigation": {
+    "track_chapters": 6,
+    "visible_chapters": 3,
+    "slide_s": 0.75,
+    "interactive": false
+  },
+  "generic_defaults_changed": false
+}

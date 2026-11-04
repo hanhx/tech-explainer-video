@@ -1,0 +1,18 @@
+{
+  "repository": "https://github.com/deepseek-ai/DeepInfer",
+  "commit": "553741557a57df44a46fb3ab72b6aafeaf945337",
+  "analysis": "static source and official repository document review",
+  "deployed": false,
+  "benchmarked": false,
+  "files": {
+    "README.md": "b55624158ada4dc21b882d24ded06bf82f65350b44d170877b68395712cd670d",
+    "doc/inference_deployment_qa.md": "55d428d9958aa35ac863d7f5a2eb21528e683226784b1ac334e8068e21f2326f",
+    "deepinfer/model_executor/model_loader.py": "a79705921224c117255b6472c614fed280122d431a8b3d5cf349604f55009549",
+    "deepinfer/worker/base.py": "40e6ca29aebd9d475eaad4b86326783f76dba2b73feaa51d86a200b7704a05ed",
+    "deepinfer/worker/cache_engine.py": "ca3d80120fe6bc50971b180278dd575d585e1a6c7a3c2174a8a6fd6213454161",
+    "csrc/engine/block_manager.hpp": "83eabc936b4316b70254f8772041669de3e6a8878b4f12859e3a7ddd17c395d0",
+    "csrc/engine/scheduler.hpp": "c14de4d5341170227b82ddf2d146d9c6a337937885a6886237aab5a7238da5db",
+    "deepinfer/engine/llm_engine.py": "a636d60ca5711f6b7c21e68370c3bd9c2de6fc3f4439a7429ca4f572f0edeebe",
+    "deepinfer/model_executor/layers/tilelang_ops/cuda/flash_mla_utils.py": "5a365195b848668126ebd73dfed00e3645648b1e509c39549c4da4fbe7c5f9b5"
+  }
+}
