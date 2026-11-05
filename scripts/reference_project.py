@@ -1,4 +1,4 @@
-"""Clone and calibrate the approved reference project; never render inside the Skill.
+"""Clone and calibrate a selected reference project; never render inside the Skill.
 
 clone DEST copies pinned source and any locally available narration.
 A Git checkout excludes audio/video; visual calibration still works without them.
@@ -9,7 +9,7 @@ from pathlib import Path
 import argparse,json,hashlib,shutil,subprocess,sys
 SKILL=Path(__file__).resolve().parents[1]
 DEFAULT_CASE='wifi-protocols-v6'
-CASES=('wifi-protocols-v6','deepinfer-paper-v10')
+CASES=('wifi-protocols-v6','deepinfer-paper-v20')
 def case_folder(name):
  if name not in CASES:raise ValueError('Unknown reference case: '+str(name))
  return SKILL/'assets/examples'/name

@@ -1,0 +1,47 @@
+{
+  "scope": "Actual V20 chapter starts; editorial titles were supplied after rendering and are not claimed to be burned into the source video.",
+  "chapters": [
+    {
+      "chapter": 1,
+      "start_s": 0,
+      "display_time": "00:00",
+      "rendered_navigation": "模型为何花钱",
+      "editorial_title": "一次请求，算力花在哪？"
+    },
+    {
+      "chapter": 2,
+      "start_s": 38.03333333333333,
+      "display_time": "00:38",
+      "rendered_navigation": "一轮怎样计算",
+      "editorial_title": "一轮推理，显卡到底在忙什么？"
+    },
+    {
+      "chapter": 3,
+      "start_s": 81.19999999999999,
+      "display_time": "01:21",
+      "rendered_navigation": "草稿带来什么",
+      "editorial_title": "先打草稿，为什么可能更快？"
+    },
+    {
+      "chapter": 4,
+      "start_s": 124.56666666666666,
+      "display_time": "02:04",
+      "rendered_navigation": "验证怎样安排",
+      "editorial_title": "多个请求，验证工作怎么分？"
+    },
+    {
+      "chapter": 5,
+      "start_s": 187.66666666666669,
+      "display_time": "03:07",
+      "rendered_navigation": "长输入怎样算",
+      "editorial_title": "长输入，哪些计算可以少做？"
+    },
+    {
+      "chapter": 6,
+      "start_s": 335.4333333333333,
+      "display_time": "05:35",
+      "rendered_navigation": "开源怎样复用",
+      "editorial_title": "已有 vLLM，DeepInfer 值得借鉴什么？"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "optional_local_media": {
+    "video.mp4": "ed4a89e11d46875ad58caa10c959b5a467a8a7e5538884a6a5009cd3992a0bd7",
+    "core-case.mp4": "20ccad05ba9b84cdfc6fdf22c01f94a00ffa51385f1e292000f4eb0b2e7259f9",
+    "continuous-context.mp4": "ec9a7a6192eef40da8841e6bbbf519e4bc97453f3a45c1eb6b9ca982ff6fc5b2"
+  },
+  "not_distributed_in_git": true
+}

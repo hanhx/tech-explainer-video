@@ -52,4 +52,4 @@ MANIM_VOICE_CONFIG
 
 完整解码、哈希、波形对齐与布局筛查分别提供技术证据，不能代替主观听音或观众理解。实际评测范围见 [`references/evals.md`](references/evals.md)。
 
-本次DeepInfer参考提供可克隆的明亮纸张风格工程、三项可见滑动导航、原生曲线图标及声音/节奏修复案例，见 [`references/example-deepinfer.md`](references/example-deepinfer.md)。仓库不分发该片声音/视频；无配音也能校准真实画面和输出静音动态预演。
+DeepInfer优先参考V20，提供同一请假案例的信息加工与依赖讲解、可克隆的明亮纸张风格工程、三项可见滑动导航、原生图标和声音/节奏修复案例。V10/V14已在0.3.0移除，见 [`references/example-deepinfer.md`](references/example-deepinfer.md)。仓库不分发该片声音/视频；无配音也能校准真实画面和输出静音动态预演。

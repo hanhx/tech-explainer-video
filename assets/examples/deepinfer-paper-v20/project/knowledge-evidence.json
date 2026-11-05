@@ -1,0 +1,57 @@
+{
+  "scope": "Complete causal teaching film; pinned primary-source review, no DeepInfer/vLLM runtime or own GPU benchmark",
+  "sources": [
+    {
+      "url": "https://arxiv.org/html/2302.01318v1",
+      "supports": "Bandwidth-limited small-batch decoding, conditional parallel scoring, draft cost and rejection-sampling process"
+    },
+    {
+      "url": "https://github.com/deepseek-ai/DeepInfer/blob/553741557a57df44a46fb3ab72b6aafeaf945337/README.md",
+      "supports": "Engine role, vLLM origin, supported-model/hardware and release boundaries"
+    },
+    {
+      "url": "https://github.com/deepseek-ai/DeepInfer/blob/553741557a57df44a46fb3ab72b6aafeaf945337/doc/inference_deployment_qa.md",
+      "supports": "Confidence/hardware-aware continuous-prefix length selection, official strategy-only 60-concurrency row, decoder bounded replay"
+    },
+    {
+      "url": "https://github.com/vllm-project/vllm-project.github.io/blob/main/_posts/2026-10-07-deepseek-v41-flash.md",
+      "supports": "Global KV sharing, local SWA and existing bounded-replay implementation; not an exclusive DeepInfer invention"
+    },
+    {
+      "url": "https://docs.vllm.ai/en/latest/training/rlhf/",
+      "supports": "Inference engines may supply generation in training workflows; no claim of ready DeepInfer integration"
+    },
+    {
+      "url": "https://arxiv.org/html/1706.03762v7",
+      "supports": "Transformer stacks, representation from previous layer, attention and positionwise feed-forward transformation with distinct learned parameters per layer; three layers not a required count."
+    }
+  ],
+  "illustrations": {
+    "company": "Hypothetical leave application; not real company policy or an executed model response",
+    "gpu": "One schematic device represents execution resources; not a deployment-size claim",
+    "cards": "Text-fragment substitutes, not real tokenizer outputs or actual inference",
+    "weight_transfer": "Conceptual reuse under bandwidth-sensitive small-batch conditions; no measured timings",
+    "sampling": "Reject branch shown; full algorithm equations and all-accepted bonus-token branch omitted",
+    "predictions": "Qualitative bars and A=2/B=4 illustrative choices, no forecasts from a real model",
+    "hardware_curve": "Shared versus variable work decomposition, not measured duration bars or a device profile.",
+    "dependency_grid": "Three layers and ten schematic text-fragment positions in the same leave question; three-neighbor local window is a toy rule. No real tokenizer/model trace.",
+    "bounded": "Decoder suffix local-state reconstruction; global shared state retained, result for decode not prefix-cache storage",
+    "official_row": "EP64/DP64, 60 seq/rank, fixed vs dynamic strategy; 13730 to 14466 estimated tokens/s/rank, not framework comparison",
+    "layers": "A network layer is a consecutive neural computation block operating on numeric token representations. The three-block animation is a depth illustration; no fixed linguistic job assigned to any layer.",
+    "grid_axes": "Rows: successive network layers. Columns: token positions. Same column: same token position at different layer output states. Bottom position labels are schematic sequence positions.",
+    "layer_purpose_example": "Same leave request: identify person/date/duration, compose the application, relate duration to supplied teaching policy. Pedagogical stages jointly supported by model layers; not fixed one-layer-one-feature tasks.",
+    "semantic_state_annotations": "Chinese labels explain possible information content; not measured hidden-state decoding or natural-language storage."
+  },
+  "no_claims": [
+    "DeepInfer always faster than vLLM",
+    "Own measured speed/cost gain; cited official single-configuration strategy data is explicitly scoped",
+    "All models can run on released DeepInfer",
+    "Training parameter learning handled by this engine",
+    "Reference creator retention statistics or authoring software"
+  ],
+  "pinned_repository_commit": "553741557a57df44a46fb3ab72b6aafeaf945337",
+  "local_source_digests": {
+    "README.md": "b55624158ada4dc21b882d24ded06bf82f65350b44d170877b68395712cd670d",
+    "inference_deployment_qa.md": "55d428d9958aa35ac863d7f5a2eb21528e683226784b1ac334e8068e21f2326f"
+  }
+}

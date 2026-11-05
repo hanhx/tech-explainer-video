@@ -1,0 +1,47 @@
+{
+  "id": "deepinfer-paper-v20",
+  "recommended_for": "Concrete semantic purpose before layer dependencies; one case, explicit workload comparison, scoped feedback.",
+  "supersedes_reference": "deepinfer-paper-v14",
+  "legacy_cases_retained": [
+    "deepinfer-paper-v14",
+    "deepinfer-paper-v10"
+  ],
+  "format": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30
+  },
+  "duration_s": 422.26666666666665,
+  "cue_count": 32,
+  "source_video_sha256": "ed4a89e11d46875ad58caa10c959b5a467a8a7e5538884a6a5009cd3992a0bd7",
+  "narration": {
+    "distributed_in_git": false,
+    "local_exact_wavs": true,
+    "new_tts": false,
+    "local_wav_count": 32
+  },
+  "human_feedback": {
+    "accepted_core_sample": {
+      "file": "media/core-case.mp4",
+      "sha256": "20ccad05ba9b84cdfc6fdf22c01f94a00ffa51385f1e292000f4eb0b2e7259f9",
+      "duration_s": 39.8666666667,
+      "cues": [
+        "model-layers",
+        "one-dependency"
+      ],
+      "response": "这次能理解了",
+      "scope": "Two shown excerpts only; not the intervening bridge, replay/quality section or full film."
+    },
+    "rejected_predecessor": {
+      "version": "V19",
+      "duration_s": 67.8,
+      "response": "不清楚，这个依赖是啥啊？你倒是举个例子啊"
+    },
+    "full_film_listening_accepted": false,
+    "full_film_visual_accepted": false,
+    "full_film_comprehension_accepted": false,
+    "phone_viewing_accepted": false,
+    "retention_measured": false
+  },
+  "generic_defaults_changed": false
+}

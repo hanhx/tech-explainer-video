@@ -6,10 +6,8 @@
 
 ## 从哪里看
 
-完整成片和动态选段是本机可选媒体，不随 Git 提交；GitHub 版本保留 PNG 基准帧、画面索引、源码与文档。没有视频/配音时，仍可运行 clone/check 校准视觉；动态选段需在拥有本机媒体的环境中打开。
+成片与配音已在0.3.0删除；保留 PNG 基准帧、画面索引、源码与文档，仍可运行 clone/check 校准视觉。
 
-- [完整成片，约 7 分 27 秒](../assets/examples/wifi-protocols-v6/video.mp4)：看对象连续性与章节衔接。
-- [重点动态选段，约 1 分 43 秒](../assets/examples/wifi-protocols-v6/key-review.mp4)：DHCP 回放、ARP、HTTPS、五层封装、RARP。选段之间有意跳切，不能用它判断整片转场。
 - [全片画面索引](../assets/examples/wifi-protocols-v6/contact-sheet.png)：只用于定位镜头，不能替代动态审片。
 - [导演阐述与 26 镜分镜](../assets/examples/wifi-protocols-v6/storyboard.md)、[实际口播](../assets/examples/wifi-protocols-v6/narration.md)、[机制来源与边界](../assets/examples/wifi-protocols-v6/knowledge.md)。
 - [制作时的复核记录](../assets/examples/wifi-protocols-v6/production-review.md)、[片段对应时间](../assets/examples/wifi-protocols-v6/key-review-timeline.json)、[来源与文件哈希](../assets/examples/wifi-protocols-v6/manifest.json)。复核记录反映交付时状态，本次后续整体好评不改写其中的历史记录。
