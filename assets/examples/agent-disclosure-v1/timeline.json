@@ -19,8 +19,8 @@
     },
     "delivery_style": "conversational-explainer-v1"
   },
-  "source_plan_sha256": "a3f84f65a5e81db2f7062bdb3fb61bf88142c0505f10321ac0a0cd67bf0c90e5",
-  "duration_s": 76.33333333333333,
+  "source_plan_sha256": "4142e6147fe9042a9d9f87897a0b22e0df82c0dae8c9126affd410390c718e84",
+  "duration_s": 82.93333333333334,
   "scenes": [
     {
       "id": "hook",
@@ -115,32 +115,55 @@
       ]
     },
     {
-      "id": "level3",
-      "title": "第三层：文件与脚本",
+      "id": "files",
+      "title": "第三层：文件",
       "start_s": 40.766666666666666,
-      "duration_s": 10.033333333333333,
+      "duration_s": 9.233333333333333,
       "lead_s": 0.0,
       "tail_s": 0.0,
       "cues": [
         {
-          "id": "level3",
-          "spoken_text": "说明里提到的参考文件，用到哪份才读哪份；脚本更省，直接在外面运行，只把结果带回来。",
-          "subtitle": "文件用到才读 脚本只带回结果",
+          "id": "files",
+          "spoken_text": "说明里还提到两份参考文件。这次只用得上表单那份，就只读它，另一份留在外面。",
+          "subtitle": "只读用得上的那份文件",
           "start_s": 0.0,
           "absolute_start_s": 40.76666667,
-          "duration_s": 9.52,
-          "action_s": 5.0,
+          "duration_s": 8.72,
+          "action_s": 4.0,
           "hold_s": 0.5,
-          "slot_s": 10.033333333333333,
-          "audio": "audio/level3-my-voice-lively-122e8a0a2963.wav",
-          "audio_sha256": "12528eb874eb9072f1ef88e463f3f39ab439e5d775855b70ba91606e93e11a04"
+          "slot_s": 9.233333333333333,
+          "audio": "audio/files-my-voice-lively-f0a7d81badfc.wav",
+          "audio_sha256": "a58672e737b8cc791dfcde1af3f6712b3fb90513486835285fb1f8cd9befd665"
+        }
+      ]
+    },
+    {
+      "id": "script",
+      "title": "第三层：脚本",
+      "start_s": 50.0,
+      "duration_s": 7.4,
+      "lead_s": 0.0,
+      "tail_s": 0.0,
+      "cues": [
+        {
+          "id": "script",
+          "spoken_text": "脚本更省：代码本身不进窗口，在外面跑完，只把结果送进来。",
+          "subtitle": "代码不进窗口 只送回结果",
+          "start_s": 0.0,
+          "absolute_start_s": 50.0,
+          "duration_s": 6.8,
+          "action_s": 4.0,
+          "hold_s": 0.6,
+          "slot_s": 7.4,
+          "audio": "audio/script-my-voice-lively-60d5fe6de9b5.wav",
+          "audio_sha256": "f2074425308de13ab8544fd6701b48657619fbc9a52b5d6627806c4b023d84e6"
         }
       ]
     },
     {
       "id": "compare",
       "title": "对比",
-      "start_s": 50.8,
+      "start_s": 57.4,
       "duration_s": 10.366666666666667,
       "lead_s": 0.6,
       "tail_s": 0.0,
@@ -150,7 +173,7 @@
           "spoken_text": "同样一百个技能，全部加载，会把窗口撑爆；按需加载，只用掉一小块。",
           "subtitle": "全部加载撑爆窗口 按需加载只用一小块",
           "start_s": 0.6,
-          "absolute_start_s": 51.4,
+          "absolute_start_s": 58.0,
           "duration_s": 8.56,
           "action_s": 3.5,
           "hold_s": 1.2,
@@ -163,7 +186,7 @@
     {
       "id": "recap",
       "title": "像查一本厚书",
-      "start_s": 61.166666666666664,
+      "start_s": 67.76666666666667,
       "duration_s": 15.166666666666666,
       "lead_s": 0.0,
       "tail_s": 0.8,
@@ -173,7 +196,7 @@
           "spoken_text": "就像查一本厚书：先看目录，再翻到那一章，最后才查附录。所以写技能时，简介要写清什么时候用，细节放进正文和文件。",
           "subtitle": "简介写清何时用 细节放进正文和文件",
           "start_s": 0.0,
-          "absolute_start_s": 61.16666667,
+          "absolute_start_s": 67.76666667,
           "duration_s": 13.36,
           "action_s": 6.0,
           "hold_s": 1.0,

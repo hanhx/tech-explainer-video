@@ -223,48 +223,87 @@ def gear(x, cx, cy, r, ang, col):
     x.d.polygon(pts, fill=col); x.d.ellipse([cx - r * 0.32, cy - r * 0.32, cx + r * 0.32, cy + r * 0.32], fill=BG)
 
 
-def draw_level3(x):
-    t = x.t; T_doc, T_run, T_res = x.at('用到哪份'), x.at('脚本更省'), x.at('只把结果')
-    x.sfx(0.2, 'pop', 0.5); x.sfx(0.5, 'pop', 0.5); x.sfx(T_doc, 'whoosh', 0.5); x.sfx(T_run + 0.6, 'thud', 0.6); x.sfx(T_run + 1.3, 'tick', 0.6); x.sfx(T_res, 'ding', 0.6)
+def inside_state(x):
+    """Window content carried over from level2: question + PDF body, other summaries dimmed."""
     window(x); window_label(x); tags(x, dim=1.0, hide=True)
     x.rr(BODY, fill=(70, 52, 30), outline=ORANGE, width=4, radius=14)
     x.text((BODY[0] + 30, BODY[1] + 44), 'PDF 技能 · 完整说明', 36, ORANGE3, anchor='lm', bold=True); body_lines(x)
     card(x, QCARD, '把这份 PDF 转成表格', CYAN)
-    a1 = x.back(x.seg(t, 0.2, 0.6)); a2 = x.back(x.seg(t, 0.5, 0.9))
-    x.text((450, 120), '技能附带的文件', 36, x.fade(MUTED, x.seg(t, 0.2, 0.6)), bold=True)
-    if a1 > 0:
-        doc_icon(x, (330, 210, 240 * a1, 84), 'reference.md' if a1 > 0.6 else '', 0.55)
-        u = x.seg(t, T_doc + 0.9, T_doc + 1.4)
-        if u: x.text((450, 330), '这次用不到 · 不读', 36, x.fade(MUTED, u))
-        pd = x.seg(t, T_doc, T_doc + 0.9)
-        doc_icon(x, fly(x, (330, 400, 240 * a1, 84), DOC_IN, pd, 120), 'forms.md' if a1 > 0.6 else '')
-        if pd >= 1: x.text((DOC_IN[0] + DOC_IN[2] / 2, DOC_IN[1] + DOC_IN[3] + 34), '用到了 · 读入', 32, ORANGE3, bold=True)
-    if a2 > 0:
-        sx, sy = 290, 580
-        x.rr((sx, sy, 320 * a2, 220), fill=(32, 46, 84), outline=GREEN, width=3, radius=14)
-        if a2 > 0.8:
-            x.text((sx + 160, sy + 30), 'fill.py', 32, GREEN, bold=True)
-            # the code itself: a tall block of lines that would be expensive to load
-            for k in range(6):
-                x.d.line([sx + 30, sy + 70 + k * 18, sx + 180 + (k * 47) % 90, sy + 70 + k * 18], fill=(70, 100, 120), width=8)
-            gear(x, sx + 250, sy + 150, 44, x.seg(t, T_run + 1.3, T_res) * 9 + x.seg(t, T_res, T_res + 1) * 2, GREEN)
-        # visible event: the code tries to enter the window and is bounced back
-        tr = x.seg(t, T_run, T_run + 1.2)
-        if 0 < tr < 1:
-            go = x.smooth(x.seg(tr, 0, 0.5)); back_ = x.smooth(x.seg(tr, 0.55, 1))
-            cx = x.lerp(sx + 30, WX0 - 210, go) - (WX0 - 240 - sx) * back_
-            for k in range(6):
-                x.d.line([cx, sy + 70 + k * 18, cx + 170, sy + 70 + k * 18], fill=(120, 160, 190), width=8)
-        if tr > 0.45:
-            stop = x.seg(tr, 0.45, 0.6) * (1 - x.seg(t, T_res, T_res + 0.4))
-            if stop:
-                x.d.line([WX0 - 18, sy - 10, WX0 - 18, sy + 230], fill=x.fade(RED, stop), width=8)
-                x.text((WX0 - 120, sy - 40), '代码不进窗口', 40, x.fade(RED, stop), bold=True)
-    pr = x.seg(t, T_res, T_res + 0.9)
-    if pr > 0:
-        r = fly(x, (500, 660, 120, 60), RES_IN, pr, 160); x.rr(r, fill=GREEN, radius=12)
-        if pr > 0.7: x.text((r[0] + r[2] / 2, r[1] + r[3] / 2), '运行结果', 32, DARK, bold=True)
-        if pr >= 1: x.text((RES_IN[0] + RES_IN[2] / 2, RES_IN[1] + RES_IN[3] + 34), '只带回结果', 32, GREEN, bold=True)
+
+
+DOC_A = (300, 330, 300, 100)      # forms.md (used)
+DOC_B = (300, 560, 300, 100)      # reference.md (not used)
+def draw_files(x):
+    """One event only: of two files, the needed one flies in; the other stays outside and fades."""
+    t = x.t; T_two, T_pick, T_rest = x.at('两份参考文件'), x.at('这次只用得上'), x.at('另一份')
+    x.sfx(T_two, 'pop', 0.5); x.sfx(T_two + 0.3, 'pop', 0.5); x.sfx(T_pick + 0.6, 'whoosh', 0.6); x.sfx(T_pick + 1.4, 'ding', 0.5)
+    inside_state(x)
+    a = x.back(x.seg(t, T_two, T_two + 0.4)); b = x.back(x.seg(t, T_two + 0.3, T_two + 0.7))
+    # a thin link from the PDF body to the two files: "mentioned in the instructions"
+    link = x.seg(t, T_two, T_two + 0.6)
+    gone = x.seg(t, T_pick + 0.6, T_pick + 0.9)
+    for d_, keep in ((DOC_A, 1 - gone), (DOC_B, 1.0)):
+        if link * keep: x.d.line([BODY[0], BODY[1] + 150, d_[0] + d_[2], d_[1] + d_[3] / 2], fill=x.fade((120, 110, 90), link * keep * 0.8), width=3)
+    pick = x.seg(t, T_pick, T_pick + 0.5)
+    ring_a = pick * (1 - x.seg(t, T_pick + 0.6, T_pick + 0.9))
+    fade_b = 1 - 0.65 * x.seg(t, T_rest, T_rest + 0.6)
+    if b > 0:
+        doc_icon(x, (DOC_B[0], DOC_B[1], DOC_B[2] * b, DOC_B[3]), 'reference.md' if b > 0.6 else '', fade_b)
+        u = x.seg(t, T_rest + 0.2, T_rest + 0.7)
+        if u: x.text((DOC_B[0] + DOC_B[2] / 2, DOC_B[1] + DOC_B[3] + 44), '用不上 · 不读', 40, x.fade(MUTED, u), bold=True)
+    if a > 0:
+        p = x.seg(t, T_pick + 0.6, T_pick + 1.5)
+        r = fly(x, (DOC_A[0], DOC_A[1], DOC_A[2] * a, DOC_A[3]), DOC_IN, p, 140)
+        doc_icon(x, r, 'forms.md' if a > 0.6 else '')
+        if ring_a: x.d.rounded_rectangle([DOC_A[0] - 14, DOC_A[1] - 14, DOC_A[0] + DOC_A[2] + 14, DOC_A[1] + DOC_A[3] + 14], radius=18, outline=x.fade((255, 240, 120), ring_a), width=5)
+        if p >= 1: x.text((DOC_IN[0] + DOC_IN[2] / 2, DOC_IN[1] + DOC_IN[3] + 36), '用得上 · 读入', 34, ORANGE3, bold=True)
+
+
+CODE = (240, 380, 420, 420)        # script code block, deliberately big
+def code_lines(x, rect, col, a=1.0):
+    bx, by, w, h = rect
+    for k in range(int((h - 70) / 22)):
+        L = (w - 70) * (0.45 + 0.5 * ((k * 37) % 7) / 7)
+        x.d.line([bx + 30, by + 60 + k * 22, bx + 30 + L, by + 60 + k * 22], fill=x.fade(col, a), width=9)
+
+
+def draw_script(x):
+    """One event only: big code walks to the window, is stopped; runs outside; a tiny result goes in."""
+    t = x.t; T_code, T_run, T_res = x.at('代码本身不进窗口'), x.at('在外面跑完'), x.at('只把结果')
+    x.sfx(0.3, 'pop', 0.5); x.sfx(T_code + 0.7, 'thud', 0.9); x.sfx(T_run, 'tick', 0.7); x.sfx(T_res + 0.2, 'whoosh', 0.5); x.sfx(T_res + 1.0, 'ding', 0.7)
+    inside_state(x)
+    x.rr((DOC_IN[0], DOC_IN[1], DOC_IN[2], DOC_IN[3]), fill=(230, 236, 250), radius=10)
+    x.text((DOC_IN[0] + DOC_IN[2] / 2, DOC_IN[1] + DOC_IN[3] / 2), 'forms.md', 32, DARK, bold=True)
+    a = x.back(x.seg(t, 0.3, 0.7))
+    # code block walks right, hits the window edge, bounces back
+    go = x.smooth(x.seg(t, T_code, T_code + 0.7)); back_ = x.smooth(x.seg(t, T_code + 0.75, T_code + 1.3))
+    dx = (WX0 - 30 - (CODE[0] + CODE[2])) * go * (1 - back_)
+    r = (CODE[0] + dx, CODE[1], CODE[2] * a, CODE[3])
+    if a > 0:
+        x.rr(r, fill=(32, 46, 84), outline=GREEN, width=4, radius=16)
+        if a > 0.8:
+            x.text((r[0] + r[2] / 2, r[1] + 32), 'fill.py · 代码', 34, GREEN, bold=True)
+            code_lines(x, r, (90, 130, 160))
+    hit = x.seg(t, T_code + 0.65, T_code + 0.8) * (1 - x.seg(t, T_run + 0.4, T_run + 1.0))
+    if hit:
+        x.d.line([WX0 - 18, CODE[1] - 20, WX0 - 18, CODE[1] + CODE[3] + 20], fill=x.fade(RED, hit), width=10)
+        pill(x, ((CODE[0] + WX0) / 2 + 90, CODE[1] - 60), '代码不进窗口', 44, RED, hit)
+    run = x.seg(t, T_run, T_res)
+    if run > 0:
+        gear(x, CODE[0] + CODE[2] / 2, CODE[1] + CODE[3] / 2 + 20, 90, run * 14, GREEN)
+    p = x.seg(t, T_res + 0.2, T_res + 1.1)
+    if p > 0:
+        rr_ = fly(x, (CODE[0] + CODE[2] / 2 - 70, CODE[1] + CODE[3] / 2, 140, 60), RES_IN, p, 180)
+        x.rr(rr_, fill=GREEN, radius=12)
+        x.text((rr_[0] + rr_[2] / 2, rr_[1] + rr_[3] / 2), '结果', 32, DARK, bold=True)
+        if p >= 1:
+            x.text((RES_IN[0] + RES_IN[2] / 2, RES_IN[1] + RES_IN[3] + 36), '只占一小格', 34, GREEN, bold=True)
+
+
+def pill(x, center, s, size, col, a):
+    f = x.font(size, True); w = x.d.textlength(s, font=f); cx, cy = center
+    x.rr((cx - w / 2 - 24, cy - size * 0.85, w + 48, size * 1.7), fill=x.fade(BG, a), radius=16)
+    x.text(center, s, size, x.fade(col, a), bold=True)
 
 
 # ---------------------------------------------------------------- 6 compare (climax)

@@ -1,3 +1,3 @@
-{"round": 4, "contact_sheet": "out/contact.png",
- "shots": {"hook": "半懂", "pain": "半懂", "level1": "半懂", "level2": "半懂", "level3": "不懂", "compare": "懂", "recap": "懂"},
- "notes": {"level3": "一镜塞了三件事：用到的文件、用不到的文件、脚本只回结果；需拆成两镜"}}
+{"round": 5, "contact_sheet": "out/contact.png",
+ "shots": {"hook": "半懂", "pain": "半懂", "level1": "半懂", "level2": "半懂", "files": "半懂", "script": "半懂", "compare": "懂", "recap": "半懂"},
+ "notes": {"script": "原第 5 镜拆成 files / script 两镜后由不懂升为半懂"}}

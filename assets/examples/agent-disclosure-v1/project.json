@@ -84,17 +84,32 @@
       ]
     },
     {
-      "id": "level3",
-      "title": "第三层：文件与脚本",
+      "id": "files",
+      "title": "第三层：文件",
       "cues": [
         {
-          "id": "level3",
-          "spoken_text": "说明里提到的参考文件，用到哪份才读哪份；脚本更省，直接在外面运行，只把结果带回来。",
-          "subtitle": "文件用到才读 脚本只带回结果",
-          "action_s": 5.0,
+          "id": "files",
+          "spoken_text": "说明里还提到两份参考文件。这次只用得上表单那份，就只读它，另一份留在外面。",
+          "subtitle": "只读用得上的那份文件",
+          "action_s": 4.0,
           "hold_s": 0.5,
-          "audio": "audio/level3-my-voice-lively-122e8a0a2963.wav",
+          "audio": "audio/files-my-voice-lively-f0a7d81badfc.wav",
           "seed": 1239
+        }
+      ]
+    },
+    {
+      "id": "script",
+      "title": "第三层：脚本",
+      "cues": [
+        {
+          "id": "script",
+          "spoken_text": "脚本更省：代码本身不进窗口，在外面跑完，只把结果送进来。",
+          "subtitle": "代码不进窗口 只送回结果",
+          "action_s": 4.0,
+          "hold_s": 0.6,
+          "audio": "audio/script-my-voice-lively-60d5fe6de9b5.wav",
+          "seed": 1240
         }
       ]
     },

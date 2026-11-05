@@ -53,7 +53,7 @@ metadata:
 
 - 时间轴来自真实 WAV：`python3 "$SKILL/scripts/build_timeline.py" "$PROJECT/project.json"`。
 - 先做 animatic（关键状态 + 实际配音），再做最难因果链与最拥挤镜头的动态预演，最后整片。
-- **引擎**：本机有 Manim 时可用 `assets/starter`/`starter-narrated` + `render_project.py`；没有 Manim 或需要位图/逐帧效果时，用 Pillow 引擎：项目里只写 `scenes.py`（每个 scene 一个 `draw_<id>(ctx)`），运行 `"$PY" "$SKILL/scripts/pillow_engine.py" "$PROJECT" [--draft|--still 秒…|--only SCENE]`。绘制优先用 `scripts/pillow_kit.py` 组件（`container` `fill_up` `fly` `morph` `scan` `ring` `bars` `stamp` `gear` `pill` 等），不从零写坐标动画。范例见 [example-agent-disclosure.md](references/example-agent-disclosure.md)。
+- **引擎**：先找已有环境（如 `~/.venvs/manim/bin/python` 装有 Manim 0.22.0、Pillow、NumPy，可同时作 `$PY`），不擅自安装。本机有 Manim 时可用 `assets/starter`/`starter-narrated` + `render_project.py`；没有 Manim 或需要位图/逐帧效果时，用 Pillow 引擎：项目里只写 `scenes.py`（每个 scene 一个 `draw_<id>(ctx)`），运行 `"$PY" "$SKILL/scripts/pillow_engine.py" "$PROJECT" [--draft|--still 秒…|--only SCENE]`。绘制优先用 `scripts/pillow_kit.py` 组件（`container` `fill_up` `fly` `morph` `scan` `ring` `bars` `stamp` `gear` `pill` 等），不从零写坐标动画。范例见 [example-agent-disclosure.md](references/example-agent-disclosure.md)。
 - **按词触发**：动作写成 `ctx.at('说到的词')`，引擎按真实 WAV 的停顿对齐分句时间，不要手填秒数；音效用 `ctx.sfx(t, kind)` 挂在同一时刻。
 - 动作后留可读保持；输出 `actual-timeline.json`。
 
