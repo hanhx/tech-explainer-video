@@ -32,6 +32,7 @@ metadata:
 
 读 [visual-craft.md](references/visual-craft.md)，分镜时逐镜落实：
 
+0. **定机制类型**：按 [mechanism-patterns.md](references/mechanism-patterns.md) 判断属于哪一类（容量、按需加载、缓存、并行、协议、查找、分层、权衡），套用该类的镜头骨架与高潮；导演阐述写明类型。
 1. **对标**：选 1 个对标作品/方向，写明借用的文字量、变化频率、造型配色。
 2. **视觉事件**：每镜写出一个不读字也能感知的变化（流动、累积、复用、对比、规模反差、变形、冲突）。写不出来的镜头要么并入相邻镜，要么重想画法。
 3. **文字预算**：字幕 1 层 + 可选短标题（≤12 字）+ 贴身对象标签；不加副标题、横幅、图注；章节导航与页码默认关闭。
@@ -52,17 +53,20 @@ metadata:
 
 - 时间轴来自真实 WAV：`python3 "$SKILL/scripts/build_timeline.py" "$PROJECT/project.json"`。
 - 先做 animatic（关键状态 + 实际配音），再做最难因果链与最拥挤镜头的动态预演，最后整片。
-- Manim CE 用 `assets/starter` 或 `starter-narrated`；其他引擎沿用时间轴接口。动作按语义事件触发，动作后留可读保持；输出 `actual-timeline.json`。
+- **引擎**：本机有 Manim 时可用 `assets/starter`/`starter-narrated` + `render_project.py`；没有 Manim 或需要位图/逐帧效果时，用 Pillow 引擎：项目里只写 `scenes.py`（每个 scene 一个 `draw_<id>(ctx)`），运行 `"$PY" "$SKILL/scripts/pillow_engine.py" "$PROJECT" [--draft|--still 秒…|--only SCENE]`。绘制优先用 `scripts/pillow_kit.py` 组件（`container` `fill_up` `fly` `morph` `scan` `ring` `bars` `stamp` `gear` `pill` 等），不从零写坐标动画。范例见 [example-agent-disclosure.md](references/example-agent-disclosure.md)。
+- **按词触发**：动作写成 `ctx.at('说到的词')`，引擎按真实 WAV 的停顿对齐分句时间，不要手填秒数；音效用 `ctx.sfx(t, kind)` 挂在同一时刻。
+- 动作后留可读保持；输出 `actual-timeline.json`。
 
 ## 6. 审片
 
 先做观众视角，再做技术检查：
 
 1. **去文字测试**：隐藏字幕和说明文字、静音观看，能看出谁在动、什么变了吗？
-2. **接触表**：`"$PY" "$SKILL/scripts/contact_sheet.py" VIDEO --timeline actual-timeline.json --output contact.png`，每镜前/中/后 3 帧；用 Read 实际看图，记录焦点、文字字数、视觉事件、机位重复。
-3. **零上下文复述**：关键帧 + 字幕交给无上下文子代理复述机制，找没讲通的镜头。
-4. 按 [directing.md](references/directing.md) §12 清单逐项过。
-5. 技术检查：
+2. **接触表**：`"$PY" "$SKILL/scripts/contact_sheet.py" VIDEO --timeline actual-timeline.json --output contact.png --at-events`，每镜取关键动作刚发生后的帧（无事件时取 10%/50%/90%）；用 Read 实际看图，记录焦点、文字字数、视觉事件、机位重复。
+3. **零上下文复述**：把接触表交给无上下文子代理，用 [visual-craft.md](references/visual-craft.md) §9 的固定提问；“只看画面”判为不懂的镜头优先改画面。
+4. **关卡**：把复述结果写进 `$PROJECT/review.json`，运行 `python3 "$SKILL/scripts/review_gate.py" "$PROJECT"`。有“不懂”的镜头、缺判断、或接触表比源码旧时会拦下；**通过前不渲染正式整片**。修画面后重新出 draft、接触表、复述。
+5. 按 [directing.md](references/directing.md) §12 清单逐项过。
+6. 技术检查：
 
 ```sh
 python3 "$SKILL/scripts/render_project.py" "$PROJECT" --python "$PY" --mode draft

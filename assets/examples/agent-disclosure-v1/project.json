@@ -1,0 +1,148 @@
+{
+  "fps": 30,
+  "narration": true,
+  "voice_profile": {
+    "id": "my-voice-lively",
+    "reference_sha256": "fe5415cf201aa6bdaa8d95974564b88d5fe3b9519c1a9d2465542f521af083ac",
+    "profile_fingerprint": "a7c0b5e1f430313ec822d27ec45818fda53f00dfdad760ab16932ee060f0f2ae",
+    "processing": {
+      "tempo": 1.0,
+      "pitch_semitones": 0,
+      "sentence_ending": "exclamation",
+      "denoise": {
+        "preset": "afftdn-hiss-v1"
+      },
+      "mastering": {
+        "preset": "speech-mobile-v1"
+      }
+    },
+    "delivery_style": "conversational-explainer-v1"
+  },
+  "sources": [
+    "https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "title": "全塞进去会怎样",
+      "lead_s": 0.3,
+      "cues": [
+        {
+          "id": "hook",
+          "spoken_text": "给你的 Agent 装上一百个技能，把说明书一股脑全塞进上下文，会发生什么？",
+          "subtitle": "装上一百个技能 全塞进上下文 会怎样？",
+          "action_s": 4.0,
+          "hold_s": 0.4,
+          "audio": "audio/hook-my-voice-lively-a30b87294e65.wav",
+          "seed": 1235
+        }
+      ]
+    },
+    {
+      "id": "pain",
+      "title": "问题被淹没",
+      "cues": [
+        {
+          "id": "pain",
+          "spoken_text": "窗口瞬间被挤满。你真正的问题，反而没地方放了，又贵又慢，还容易答偏。",
+          "subtitle": "窗口被挤满 真正的问题反而没地方放",
+          "action_s": 3.0,
+          "hold_s": 0.5,
+          "audio": "audio/pain-my-voice-lively-70976fd21882.wav",
+          "seed": 1236
+        }
+      ]
+    },
+    {
+      "id": "level1",
+      "title": "第一层：简介",
+      "cues": [
+        {
+          "id": "level1",
+          "spoken_text": "渐进式披露换了个思路：一开始，每个技能只留一行简介，名字加用途。一百个技能，也就占一小条。",
+          "subtitle": "一开始 每个技能只留一行简介",
+          "action_s": 5.0,
+          "hold_s": 0.6,
+          "audio": "audio/level1-my-voice-lively-80f5a58298a8.wav",
+          "seed": 1237
+        }
+      ]
+    },
+    {
+      "id": "level2",
+      "title": "第二层：正文",
+      "cues": [
+        {
+          "id": "level2",
+          "spoken_text": "比如你说：把这份 PDF 转成表格。Agent 对着简介一扫，只有 PDF 这一项对上，这时才把它的完整说明读进来。",
+          "subtitle": "只有对上的那一项 才读入完整说明",
+          "action_s": 5.0,
+          "hold_s": 0.6,
+          "audio": "audio/level2-my-voice-lively-6115d48bcd27.wav",
+          "seed": 1238
+        }
+      ]
+    },
+    {
+      "id": "level3",
+      "title": "第三层：文件与脚本",
+      "cues": [
+        {
+          "id": "level3",
+          "spoken_text": "说明里提到的参考文件，用到哪份才读哪份；脚本更省，直接在外面运行，只把结果带回来。",
+          "subtitle": "文件用到才读 脚本只带回结果",
+          "action_s": 5.0,
+          "hold_s": 0.5,
+          "audio": "audio/level3-my-voice-lively-122e8a0a2963.wav",
+          "seed": 1239
+        }
+      ]
+    },
+    {
+      "id": "compare",
+      "title": "对比",
+      "lead_s": 0.6,
+      "cues": [
+        {
+          "id": "compare",
+          "spoken_text": "同样一百个技能，全部加载，会把窗口撑爆；按需加载，只用掉一小块。",
+          "subtitle": "全部加载撑爆窗口 按需加载只用一小块",
+          "action_s": 3.5,
+          "hold_s": 1.2,
+          "audio": "audio/compare-my-voice-lively-1d0d9e653786.wav",
+          "seed": 1240
+        }
+      ]
+    },
+    {
+      "id": "recap",
+      "title": "像查一本厚书",
+      "tail_s": 0.8,
+      "cues": [
+        {
+          "id": "recap",
+          "spoken_text": "就像查一本厚书：先看目录，再翻到那一章，最后才查附录。所以写技能时，简介要写清什么时候用，细节放进正文和文件。",
+          "subtitle": "简介写清何时用 细节放进正文和文件",
+          "action_s": 6.0,
+          "hold_s": 1.0,
+          "audio": "audio/recap-my-voice-lively-10cbbbb7b7eb.wav",
+          "seed": 1241,
+          "subtitle_parts": [
+            {
+              "from": "就像",
+              "text": "就像查一本厚书"
+            },
+            {
+              "from": "先看目录",
+              "text": "先看目录 再翻章节 最后查附录"
+            },
+            {
+              "from": "所以写技能时",
+              "text": "简介写清何时用 细节放进正文和文件"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

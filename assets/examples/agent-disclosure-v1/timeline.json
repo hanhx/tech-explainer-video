@@ -1,0 +1,187 @@
+{
+  "schema_version": 1,
+  "fps": 30,
+  "narration": true,
+  "voice_profile": {
+    "id": "my-voice-lively",
+    "reference_sha256": "fe5415cf201aa6bdaa8d95974564b88d5fe3b9519c1a9d2465542f521af083ac",
+    "profile_fingerprint": "a7c0b5e1f430313ec822d27ec45818fda53f00dfdad760ab16932ee060f0f2ae",
+    "processing": {
+      "tempo": 1.0,
+      "pitch_semitones": 0,
+      "sentence_ending": "exclamation",
+      "denoise": {
+        "preset": "afftdn-hiss-v1"
+      },
+      "mastering": {
+        "preset": "speech-mobile-v1"
+      }
+    },
+    "delivery_style": "conversational-explainer-v1"
+  },
+  "source_plan_sha256": "a3f84f65a5e81db2f7062bdb3fb61bf88142c0505f10321ac0a0cd67bf0c90e5",
+  "duration_s": 76.33333333333333,
+  "scenes": [
+    {
+      "id": "hook",
+      "title": "全塞进去会怎样",
+      "start_s": 0.0,
+      "duration_s": 8.466666666666667,
+      "lead_s": 0.3,
+      "tail_s": 0.0,
+      "cues": [
+        {
+          "id": "hook",
+          "spoken_text": "给你的 Agent 装上一百个技能，把说明书一股脑全塞进上下文，会发生什么？",
+          "subtitle": "装上一百个技能 全塞进上下文 会怎样？",
+          "start_s": 0.3,
+          "absolute_start_s": 0.3,
+          "duration_s": 7.76,
+          "action_s": 4.0,
+          "hold_s": 0.4,
+          "slot_s": 8.166666666666666,
+          "audio": "audio/hook-my-voice-lively-a30b87294e65.wav",
+          "audio_sha256": "59a37d31f76642e946a9a3d5a8c34c38c808ea23a5c056dbb60486778483ec41"
+        }
+      ]
+    },
+    {
+      "id": "pain",
+      "title": "问题被淹没",
+      "start_s": 8.466666666666667,
+      "duration_s": 8.766666666666667,
+      "lead_s": 0.0,
+      "tail_s": 0.0,
+      "cues": [
+        {
+          "id": "pain",
+          "spoken_text": "窗口瞬间被挤满。你真正的问题，反而没地方放了，又贵又慢，还容易答偏。",
+          "subtitle": "窗口被挤满 真正的问题反而没地方放",
+          "start_s": 0.0,
+          "absolute_start_s": 8.46666667,
+          "duration_s": 8.24,
+          "action_s": 3.0,
+          "hold_s": 0.5,
+          "slot_s": 8.766666666666667,
+          "audio": "audio/pain-my-voice-lively-70976fd21882.wav",
+          "audio_sha256": "cc19e5b9dbcf67943a45d7ec7c485621925ddca84b3b54347a8dae51b56ffbbf"
+        }
+      ]
+    },
+    {
+      "id": "level1",
+      "title": "第一层：简介",
+      "start_s": 17.233333333333334,
+      "duration_s": 11.8,
+      "lead_s": 0.0,
+      "tail_s": 0.0,
+      "cues": [
+        {
+          "id": "level1",
+          "spoken_text": "渐进式披露换了个思路：一开始，每个技能只留一行简介，名字加用途。一百个技能，也就占一小条。",
+          "subtitle": "一开始 每个技能只留一行简介",
+          "start_s": 0.0,
+          "absolute_start_s": 17.23333333,
+          "duration_s": 11.2,
+          "action_s": 5.0,
+          "hold_s": 0.6,
+          "slot_s": 11.8,
+          "audio": "audio/level1-my-voice-lively-80f5a58298a8.wav",
+          "audio_sha256": "086d04c7a9f8c1d7e1c096fdc0da5f25f1b7b6f8f39445bd9f42f959ea837aad"
+        }
+      ]
+    },
+    {
+      "id": "level2",
+      "title": "第二层：正文",
+      "start_s": 29.033333333333335,
+      "duration_s": 11.733333333333333,
+      "lead_s": 0.0,
+      "tail_s": 0.0,
+      "cues": [
+        {
+          "id": "level2",
+          "spoken_text": "比如你说：把这份 PDF 转成表格。Agent 对着简介一扫，只有 PDF 这一项对上，这时才把它的完整说明读进来。",
+          "subtitle": "只有对上的那一项 才读入完整说明",
+          "start_s": 0.0,
+          "absolute_start_s": 29.03333333,
+          "duration_s": 11.12,
+          "action_s": 5.0,
+          "hold_s": 0.6,
+          "slot_s": 11.733333333333333,
+          "audio": "audio/level2-my-voice-lively-6115d48bcd27.wav",
+          "audio_sha256": "bb9ec4ce38e78b27db654f51e8ade0af49c7c39cb1376da06e43c86da0bf0f1c"
+        }
+      ]
+    },
+    {
+      "id": "level3",
+      "title": "第三层：文件与脚本",
+      "start_s": 40.766666666666666,
+      "duration_s": 10.033333333333333,
+      "lead_s": 0.0,
+      "tail_s": 0.0,
+      "cues": [
+        {
+          "id": "level3",
+          "spoken_text": "说明里提到的参考文件，用到哪份才读哪份；脚本更省，直接在外面运行，只把结果带回来。",
+          "subtitle": "文件用到才读 脚本只带回结果",
+          "start_s": 0.0,
+          "absolute_start_s": 40.76666667,
+          "duration_s": 9.52,
+          "action_s": 5.0,
+          "hold_s": 0.5,
+          "slot_s": 10.033333333333333,
+          "audio": "audio/level3-my-voice-lively-122e8a0a2963.wav",
+          "audio_sha256": "12528eb874eb9072f1ef88e463f3f39ab439e5d775855b70ba91606e93e11a04"
+        }
+      ]
+    },
+    {
+      "id": "compare",
+      "title": "对比",
+      "start_s": 50.8,
+      "duration_s": 10.366666666666667,
+      "lead_s": 0.6,
+      "tail_s": 0.0,
+      "cues": [
+        {
+          "id": "compare",
+          "spoken_text": "同样一百个技能，全部加载，会把窗口撑爆；按需加载，只用掉一小块。",
+          "subtitle": "全部加载撑爆窗口 按需加载只用一小块",
+          "start_s": 0.6,
+          "absolute_start_s": 51.4,
+          "duration_s": 8.56,
+          "action_s": 3.5,
+          "hold_s": 1.2,
+          "slot_s": 9.766666666666667,
+          "audio": "audio/compare-my-voice-lively-1d0d9e653786.wav",
+          "audio_sha256": "30122e1f169f34f63a70becc922ef2b560d00c145caffa75f866bc14676ec40e"
+        }
+      ]
+    },
+    {
+      "id": "recap",
+      "title": "像查一本厚书",
+      "start_s": 61.166666666666664,
+      "duration_s": 15.166666666666666,
+      "lead_s": 0.0,
+      "tail_s": 0.8,
+      "cues": [
+        {
+          "id": "recap",
+          "spoken_text": "就像查一本厚书：先看目录，再翻到那一章，最后才查附录。所以写技能时，简介要写清什么时候用，细节放进正文和文件。",
+          "subtitle": "简介写清何时用 细节放进正文和文件",
+          "start_s": 0.0,
+          "absolute_start_s": 61.16666667,
+          "duration_s": 13.36,
+          "action_s": 6.0,
+          "hold_s": 1.0,
+          "slot_s": 14.366666666666667,
+          "audio": "audio/recap-my-voice-lively-10cbbbb7b7eb.wav",
+          "audio_sha256": "d276766b711a96291e280b6bc9e9fcbd3a1431d0da8d06561af72030a0f4099e"
+        }
+      ]
+    }
+  ]
+}

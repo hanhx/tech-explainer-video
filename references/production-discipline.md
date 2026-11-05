@@ -31,4 +31,4 @@
 
 ## 参考案例
 
-复用可运行样例按 [生产基础](reference-production.md) 先校准。DeepInfer 参考见 [V20 案例](example-deepinfer.md)。迁移方法与绘制基础，**不迁移**其版式（常驻导航、页码、标题+副标题+横幅+图注的多层文字）——这些正是 [visual-craft.md](visual-craft.md) 要避免的模板化问题。
+新片优先参考 [Agent 渐进式披露](example-agent-disclosure.md)（0.3.0 规则、Pillow 引擎）。复用可运行样例按 [生产基础](reference-production.md) 先校准。DeepInfer 参考见 [V20 案例](example-deepinfer.md)。迁移方法与绘制基础，**不迁移**其版式（常驻导航、页码、标题+副标题+横幅+图注的多层文字）——这些正是 [visual-craft.md](visual-craft.md) 要避免的模板化问题。

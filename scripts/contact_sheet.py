@@ -37,8 +37,12 @@ def main():
     p.add_argument('--output', type=Path, required=True)
     p.add_argument('--width', type=int, default=480)
     p.add_argument('--points', default='0.1,0.5,0.9')
+    p.add_argument('--at-events', action='store_true',
+                   help='sample each cue at its visual events (sfx times in actual-timeline.json, +0.5 s so the result is visible) instead of fixed points')
     a = p.parse_args()
-    cues = json.loads(a.timeline.read_text())['cues']
+    data = json.loads(a.timeline.read_text())
+    # accepts actual-timeline.json (flat cues) or build_timeline.py's timeline.json (scenes[].cues)
+    cues = data.get('cues') or [dict(c, title=s.get('title', '')) for s in data['scenes'] for c in s['cues']]
     points = [float(x) for x in a.points.split(',')]
     label_w, f = 260, font(20)
     rows = []
@@ -46,10 +50,20 @@ def main():
         for i, c in enumerate(cues):
             start = float(c.get('absolute_start_s', c.get('start_s', 0)))
             length = float(c.get('slot_s') or c.get('duration_s'))
-            frames = [grab(a.video, start + length * q, Path(tmp) / f'{i}-{j}.png', a.width)
-                      for j, q in enumerate(points)]
+            times = [start + length * q for q in points]
+            if a.at_events:
+                ev = sorted({round(t + 0.5, 2) for t, *_ in data.get('sfx', []) if start <= t < start + length - 0.5})
+                if ev:   # keep the first, the middle and the last event so the cue's arc is visible
+                    pick = [ev[0], ev[len(ev) // 2], ev[-1]] if len(ev) >= 3 else ev
+                    times = sorted(set(pick))
+                    for q in points:          # pad with fixed points so every row has the same columns
+                        if len(times) >= len(points): break
+                        tt = start + length * q
+                        if all(abs(tt - x) > 0.4 for x in times): times.append(tt)
+                    times = sorted(times)[:len(points)]
+            frames = [grab(a.video, tt, Path(tmp) / f'{i}-{j}.png', a.width) for j, tt in enumerate(times)]
             h = frames[0].height
-            row = Image.new('RGB', (label_w + a.width * len(frames), h), 'white')
+            row = Image.new('RGB', (label_w + a.width * len(points), h), 'white')
             d = ImageDraw.Draw(row)
             d.multiline_text((10, 10), f"{i + 1}. {c['id']}\n{start:.1f}s +{length:.1f}s\n{c.get('title', '')[:24]}",
                              fill='black', font=f, spacing=6)

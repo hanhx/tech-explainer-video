@@ -46,7 +46,7 @@
 
 ## 本 Skill 的支持范围
 
-本 Skill 自带的时间轴、配音、校验脚本（build_timeline / synthesize / verify_video）与引擎无关：它们只依赖 project.json、逐句音频和成片 MP4。`render_project.py` 和 starter 目前只针对 Manim。选择其他引擎时：
+本 Skill 自带的时间轴、配音、校验脚本（build_timeline / synthesize / verify_video）与引擎无关：它们只依赖 project.json、逐句音频和成片 MP4。`render_project.py` 和 starter 针对 Manim；`scripts/pillow_engine.py` 是不依赖 Manim 的逐帧引擎（Pillow + NumPy + ffmpeg），自带按停顿对齐的词级触发、推拉镜头、交叉淡化、字幕、音效与可选配乐混音。选择其他引擎时：
 
 - 复用 `synthesize.py` 生成配音，`build_timeline.py` 产出 timeline.json，作为该引擎的输入（Remotion 可直接 `import timeline.json`，用 `start_s * fps` 定位 `<Sequence>`；音频用 `<Audio>` 按 cue 放置）。
 - 渲染后同样写出 `actual-timeline.json`（字段见 implementation.md），即可用 `verify_video.py` 做技术验收。
