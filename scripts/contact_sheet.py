@@ -9,6 +9,7 @@ visual event between columns? same framing as the previous row?
 """
 import argparse
 import json
+import math
 import subprocess
 import tempfile
 from pathlib import Path
@@ -51,7 +52,14 @@ def main():
             start = float(c.get('absolute_start_s', c.get('start_s', 0)))
             length = float(c.get('slot_s') or c.get('duration_s'))
             times = [start + length * q for q in points]
-            if a.at_events:
+            explicit = c.get('review_times_s')
+            if explicit is not None:
+                times = [float(t) for t in explicit]
+                if len(times) != len(points) or any(not math.isfinite(t) or not start <= t < start + length for t in times):
+                    raise ValueError(f'{c["id"]}: review_times_s must contain {len(points)} absolute times inside this cue')
+                if times != sorted(times) or len(set(times)) != len(times):
+                    raise ValueError(f'{c["id"]}: review_times_s must be strictly increasing')
+            elif a.at_events:
                 ev = sorted({round(t + 0.5, 2) for t, *_ in data.get('sfx', []) if start <= t < start + length - 0.5})
                 if ev:   # keep the first, the middle and the last event so the cue's arc is visible
                     pick = [ev[0], ev[len(ev) // 2], ev[-1]] if len(ev) >= 3 else ev

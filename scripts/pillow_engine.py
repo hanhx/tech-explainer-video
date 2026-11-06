@@ -134,6 +134,10 @@ def char_time(anchors, i):
 
 # ---------------------------------------------------------------- sound effects
 def synth(kind):
+    if kind in ('motion_swish', 'motion_sweep', 'motion_land', 'mouse_down',
+                'mouse_up', 'mouse_click', 'keyboard_tap', 'clock_tick', 'clock_tock'):
+        from action_sounds import synth_action
+        return synth_action(kind, SR)
     n = lambda s: int(SR * s)
     t = lambda s: np.arange(n(s)) / SR
     def env(m, a=0.005, r=0.1):

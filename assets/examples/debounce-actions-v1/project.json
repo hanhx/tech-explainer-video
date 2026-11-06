@@ -1,0 +1,149 @@
+{
+  "fps": 60,
+  "narration": false,
+  "music": null,
+  "scenes": [
+    {
+      "id": "raw",
+      "title": "每个字都发一次请求",
+      "start_s": 0,
+      "duration_s": 7,
+      "cues": [
+        {
+          "id": "raw",
+          "start_s": 0,
+          "absolute_start_s": 0,
+          "duration_s": 7,
+          "slot_s": 7,
+          "spoken_text": "每次输入都搜索，请求接连发出",
+          "subtitle": "每次输入都搜索，请求接连发出",
+          "audio": null,
+          "review_times_s": [
+            1.4,
+            2.9,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reset",
+      "title": "输入让计时重置",
+      "start_s": 7,
+      "duration_s": 6,
+      "cues": [
+        {
+          "id": "reset",
+          "start_s": 0,
+          "absolute_start_s": 7,
+          "duration_s": 6,
+          "slot_s": 6,
+          "spoken_text": "打开防抖，每次输入都重新计时",
+          "subtitle": "打开防抖，每次输入都重新计时",
+          "audio": null,
+          "review_times_s": [
+            9.9,
+            10,
+            10.2
+          ]
+        }
+      ]
+    },
+    {
+      "id": "send",
+      "title": "停够两秒再发出",
+      "start_s": 13,
+      "duration_s": 5,
+      "cues": [
+        {
+          "id": "send",
+          "start_s": 0,
+          "absolute_start_s": 13,
+          "duration_s": 5,
+          "slot_s": 5,
+          "spoken_text": "停够两秒，只发送最新的输入",
+          "subtitle": "停够两秒，只发送最新的输入",
+          "audio": null,
+          "review_times_s": [
+            14,
+            15.4,
+            17
+          ]
+        }
+      ]
+    },
+    {
+      "id": "keep_typing",
+      "title": "持续输入继续推迟",
+      "start_s": 18,
+      "duration_s": 5,
+      "cues": [
+        {
+          "id": "keep_typing",
+          "start_s": 0,
+          "absolute_start_s": 18,
+          "duration_s": 5,
+          "slot_s": 5,
+          "spoken_text": "一直输入，发送也会继续推迟",
+          "subtitle": "一直输入，发送也会继续推迟",
+          "audio": null,
+          "review_times_s": [
+            20.8,
+            21,
+            21.2
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pause",
+      "title": "停止输入，再等两秒",
+      "start_s": 23,
+      "duration_s": 2,
+      "cues": [
+        {
+          "id": "pause",
+          "start_s": 0,
+          "absolute_start_s": 23,
+          "duration_s": 2,
+          "slot_s": 2,
+          "spoken_text": "现在停下，再等两秒",
+          "subtitle": "现在停下，再等两秒",
+          "audio": null,
+          "review_times_s": [
+            23.3,
+            24,
+            24.8
+          ]
+        }
+      ]
+    },
+    {
+      "id": "send_again",
+      "title": "发出最新输入",
+      "start_s": 25,
+      "duration_s": 3,
+      "cues": [
+        {
+          "id": "send_again",
+          "start_s": 0,
+          "absolute_start_s": 25,
+          "duration_s": 3,
+          "slot_s": 3,
+          "spoken_text": "停够两秒，再发送最新输入",
+          "subtitle": "停够两秒，再发送最新输入",
+          "audio": null,
+          "review_times_s": [
+            25.05,
+            25.4,
+            26.5
+          ]
+        }
+      ]
+    }
+  ],
+  "probe": "Visual and action-SFX evaluation only; no recorded narration or BGM",
+  "sources": [
+    "https://developer.mozilla.org/en-US/docs/Glossary/Debounce"
+  ]
+}
