@@ -1,0 +1,72 @@
+{
+  "fps": 30,
+  "narration": false,
+  "music": null,
+  "scenes": [
+    {
+      "id": "hook",
+      "title": "刷新网页会重下吗？",
+      "cues": [
+        {
+          "id": "hook",
+          "estimated_s": 3.8,
+          "spoken_text": "按下刷新，网页一定要重新下载吗？",
+          "subtitle": "刷新网页，一定要重下吗？",
+          "hold_s": 0.2
+        }
+      ]
+    },
+    {
+      "id": "validate",
+      "title": "拿旧标签询问服务器",
+      "cues": [
+        {
+          "id": "validate",
+          "estimated_s": 4.8,
+          "spoken_text": "有缓存时，浏览器可以带着缓存副本的标签去问服务器，这份还能用吗？",
+          "subtitle": "浏览器拿着旧标签，问服务器还能用吗？",
+          "hold_s": 0.2
+        }
+      ]
+    },
+    {
+      "id": "reuse",
+      "title": "标签相同，沿用旧页面",
+      "cues": [
+        {
+          "id": "reuse",
+          "estimated_s": 5.8,
+          "spoken_text": "标签对上了。服务器回三零四，不带网页正文。浏览器沿用本地那份。",
+          "subtitle": "标签对上，304 到达后沿用旧页面",
+          "hold_s": 0.2
+        }
+      ]
+    },
+    {
+      "id": "replace",
+      "title": "标签不同，收到新页面",
+      "cues": [
+        {
+          "id": "replace",
+          "estimated_s": 12,
+          "spoken_text": "如果服务器更新了呢？还是拿手里的旧标签问。对不上，这次返回二零零，浏览器收到新正文再更新。",
+          "subtitle": "网页更新，再刷新就收到新页面",
+          "subtitle_parts": [
+            {
+              "from": "如果服务器更新了呢？",
+              "text": "服务器上的页面更新了"
+            },
+            {
+              "from": "还是拿手里的旧标签问",
+              "text": "再次拿手里的旧标签询问"
+            },
+            {
+              "from": "对不上",
+              "text": "标签对不上，这次连新页面一起返回"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

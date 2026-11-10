@@ -2,7 +2,7 @@
 name: tech-explainer-video
 description: "以导演、视觉和分镜专家的方式制作或修改技术科普视频（AI、软件、网络、数据库、算法、系统架构）：知识核实、导演阐述、分镜与镜头语言、风格与引擎选择（Manim / Remotion / 逐帧绘制等按镜头需求选择）、配音生成、时间轴同步、审片与验收。用户说“做个讲解/科普视频”“把这个原理做成动画”“给视频配音/换声/修读音”时使用。只讨论概念或方法时只讨论，不建工程；用户指定引擎时尊重其选择。"
 metadata:
-  version: "0.3.1"
+  version: "0.3.5"
 ---
 
 # 技术科普视频（导演视角）
@@ -27,6 +27,7 @@ metadata:
 - 用受众真实熟悉的任务起步，同一案例贯穿全片；不为套比喻换成陌生业务。客观叙事或第一人称服从用户选择。
 - 因果链：谁在什么条件下做什么 → 状态怎样变 → 哪项工作被复用/减少/重排 → 为什么影响目标。
 - 用“当前瓶颈 → 最短充分解法 → 解法带来的下一问题”递进，不按术语目录报菜名，也不把所有章节硬串成同一原因。问句后及时接简短答案，再演示机制。
+- 总问题覆盖正文的主要收获；区分用途、机制和示例。关键对象第一次被放大时，先说后续哪一步要用它，再演它怎么工作。
 - 开头 3–5 秒给出问题或效果；阶段之间兑现收获并引出下一问；结尾回扣开头，落到人的工作怎样改变。已选结尾与互动原句保留。
 
 ## 3. 设计画面（本 Skill 的核心）
@@ -39,7 +40,7 @@ metadata:
 3. **文字预算**：字幕 1 层 + 可选短标题（≤12 字）+ 贴身对象标签；不加副标题、横幅、图注；章节导航与页码默认关闭。
 4. **运镜与转场**：对象真正执行读取、传递、等待等操作；保留身份与去向。整页缩放不能代替机制，运动连续性按 [motion-and-sound.md](references/motion-and-sound.md) 检查。
 5. **节奏**：每镜标快/中/慢，高潮前留白、高潮放慢；避免连续同档。
-6. **声音**：默认低音量背景音乐；按可见动作配置克制的状态音、运动音和拟音（用户不要时关闭）。移动、点击、表盘分别设计，不只在片头片尾加叮声，也不铺连续沙沙声。
+6. **声音**：默认低音量背景音乐；按可见动作配置克制的状态音、运动音和拟音（用户不要时关闭）。移动、点击、表盘分别设计，不只在片头片尾加叮声，也不铺连续沙沙声。按需从[可商用音效来源](references/motion-and-sound.md#可商用的外部音效)选真实拟音、短转场和结果反馈。 用户偏好的剪映音色可按[参考表](references/motion-and-sound.md#剪映音色参考)标记动作，实际素材按授权选择。
 
 分镜表格式、镜头语言、构图、字幕、动效规范见 [directing.md](references/directing.md)；风格与引擎见 [visual-styles.md](references/visual-styles.md)、[engine-choice.md](references/engine-choice.md)。无既选风格的新片给 2–3 张静态样张让用户选。
 
@@ -55,6 +56,7 @@ metadata:
 - 时间轴来自真实 WAV：`python3 "$SKILL/scripts/build_timeline.py" "$PROJECT/project.json"`。
 - 先做 animatic（关键状态 + 实际配音），再做最难因果链与最拥挤镜头的动态预演，最后整片。
 - **引擎**：先找已有环境（如 `~/.venvs/manim/bin/python` 装有 Manim 0.22.0、Pillow、NumPy，可同时作 `$PY`），不擅自安装。本机有 Manim 时可用 `assets/starter`/`starter-narrated` + `render_project.py`；没有 Manim 或需要位图/逐帧效果时，用 Pillow 引擎：项目里只写 `scenes.py`（每个 scene 一个 `draw_<id>(ctx)`），运行 `"$PY" "$SKILL/scripts/pillow_engine.py" "$PROJECT" [--draft|--still 秒…|--only SCENE]`。绘制优先用 `scripts/pillow_kit.py` 组件（`container` `fill_up` `fly` `morph` `scan` `ring` `bars` `stamp` `gear` `pill` 等），不从零写坐标动画。范例见 [example-agent-disclosure.md](references/example-agent-disclosure.md)。
+- **复用动态背景和叙事骨架**：浅色像素场景可调用 `pillow_kit.moving_grid`，走全片时钟。条件改变导致结果分叉时，可用同一场景重演同一个动作。见 [背景用法](references/visual-styles.md#浅色动态网格) 与 [两次结果怎么演](references/mechanism-patterns.md#同一场景重演两种结果)。
 - **按词触发**：动作写成 `ctx.at('说到的词')`。Pillow 引擎依据实际 WAV 的停顿和字数估计词时点，并非强制词级对齐；关键动作需回听校准。无 WAV 时只是临时时长估计。声音绑定动作的起步、落点、按下或刻度事件，不把所有音效挂在句首；可用 `scripts/action_sounds.py` 的可复现音色。
 - 动作后留可读保持；输出 `actual-timeline.json`。
 

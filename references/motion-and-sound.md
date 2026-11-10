@@ -55,6 +55,46 @@ ctx.sfx(arrival, 'motion_land', 0.5)
 
 可运行源码样段见 `assets/examples/debounce-actions-v1/`，使用同一事件表驱动画面与声音。它是无配音的专项预演，不是有声成片模板；验证范围与复现命令见 [0.3.1 验证记录](evaluation-v0.3.1.md)。
 
+## 可商用的外部音效
+
+先选这一镜该听到的动作，再按画面材质试听。手绘可以用纸张摩擦，3D 或机械镜头可以用扣合和轻碰，屏幕操作用实录键盘或短提示。起步、移动、到达可分配不同声音；让最关键的结果最清楚，旁白下面的移动声和空间声压低。抽象背景的漂移通常静音。
+
+| 用途 | 可以试听的来源 | 许可 |
+|---|---|---|
+| 点击、按钮、确认 | [Kenney Interface Sounds](https://kenney.nl/assets/interface-sounds) | CC0 |
+| 碰撞、落位 | [Kenney Impact Sounds](https://kenney.nl/assets/impact-sounds) | CC0 |
+| 键盘、翻纸、扣合 | Freesound 的 [MacBook 键盘](https://freesound.org/people/khenshom/sounds/565645/)、[翻页](https://freesound.org/people/OwlStorm/sounds/151220/)、[门闩](https://freesound.org/people/xkeril/sounds/815491/) | 所列单条为 CC0 |
+| 短提示、接受与拒绝 | [Lokif GUI Sound Effects](https://opengameart.org/content/gui-sound-effects)、[Fupi 的 8-bit 短提示](https://opengameart.org/content/8bit-menu-highlight) | CC0 |
+| 推镜、扫过、跨屏移动 | [Mixkit Whoosh](https://mixkit.co/free-sound-effects/whoosh/) | 使用页面标为 Sound Effects Free License 的条目 |
+
+- [CC0](https://creativecommons.org/publicdomain/zero/1.0/) 音效可免费商用、剪辑和再分发，无强制署名。[Kenney 官方说明](https://kenney.nl/support)确认其素材页为 CC0。Freesound 和 OpenGameArt 逐条核对，表中条目的许可不能推到整个网站。
+- [Mixkit 音效免费许可](https://mixkit.co/license/modal/sfxFree/)允许免费用于商用社交视频和其他成片。素材文件不能单独分发，也不能放进共享 Skill、模板或源文件包。公开工程可记录条目链接，由使用者按许可获取。
+- 在当前项目记录实际使用的条目、作者、来源链接、许可和取得日期。保留原始文件与试听工作文件的对应关系，工程打包时按素材许可筛选。
+
+### 剪映音色参考
+
+以下四条是用户在剪映专业版确认喜欢的音色，作者均显示为「剪映小助手」。在「音频 → 音效库」按原名搜索。把音色与动作一一绑定，适用于像素、手绘、扁平及其他动画。
+
+| 剪映原名 | 适合的动作 | 找可复用替代时听什么 |
+|---|---|---|
+| 啵1 | 关键词、图标或小物件弹出来 | 短、圆、有一点弹性，出现那一帧响 |
+| 仙尘音效 | 关键线索亮起来、揭晓、变身或结果逐步显现 | 细碎亮音铺开，有自然尾音，跟显现过程一起走 |
+| 任务完成 | 校验完成、结果确认、一个任务真正结束 | 有明确收束的短提示，放在结果成立的时刻 |
+| 唰 | 对象划过、推拉镜头、擦拭转场 | 短气流跟随运动，长度按动作剪 |
+
+商用时开启「商用」筛选并看具体条目的授权、平台和费用。2026-11-09 在本机专业版，以上四个原名均可在热门列表看到，商用筛选下逐条搜索未返回可商用素材。本 Skill 保留名字和声音设计参考。用于可分发工程时，从上表的开放许可来源选同类音色，或用有明确授权的自制音效。剪映素材的使用范围按[剪映素材使用许可协议](https://sf1-cdn-tos.douyinstatic.com/obj/ies-hotsoon-draft/vco/f72e9cd9-cc19-4db7-ba74-0794833ce854.html)及产品当时显示的条款核对。
+
+### 接进 Pillow 或剪辑工程
+
+试听后把选中的片段转成 WAV，放到 `$PROJECT/sfx/`。文件名与动作事件一致。新名字可与内置音效并用；若用同名 WAV 替换已有音效，项目文件优先，沿用现有时点。Pillow 的混音会叠加这些片段，录音偏长时先剪取动作附近，再在成片里核对起音和尾音。
+
+```sh
+mkdir -p "$PROJECT/sfx"
+ffmpeg -n -i "$INPUT" -ac 1 -ar 48000 -c:a pcm_s16le "$PROJECT/sfx/card_seat.wav"
+```
+
+在 `draw_*` 中无条件登记 `ctx.sfx(arrival, 'card_seat', 0.5)`，`arrival` 同时用于画面落点。其他引擎或剪辑器也用这个可见时点摆放 WAV。先做一小段正常语速试听，比较音效是否遮词，核对手机扬声器上是否听得清。记录的增益和音效选择只服务于当前片段。
+
 ## 验证运动与同步
 
 1. **先短预演**：选最容易暴露问题的连续段，包含对象重排、动作密集处、语音及保持。只改声音时沿用画面，先做混音短样。

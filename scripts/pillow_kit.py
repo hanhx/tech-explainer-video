@@ -42,6 +42,41 @@ def shake_dx(x, amount):
     return math.sin(x.t * 60) * 6 * amount
 
 
+# ---------------------------------------------------------------- backgrounds
+def moving_grid(x, *, cell=144, speed=20, line=(211, 224, 229), width=3, perspective=False):
+    """Draw behind the foreground on the project clock. Sizes and speed are in pixels.
+
+    In perspective mode, cell and speed describe the spacing and drift near
+    the bottom edge. The vanishing point sits above the canvas.
+    """
+    time = x.scene["start_s"] + x.t
+    if not perspective:
+        shift = math.floor(time * speed) % cell
+        for left in range(shift, x.W, cell):
+            x.d.line((left, 0, left, x.H - 1), fill=line, width=width)
+        for top in range(0, x.H, cell):
+            x.d.line((0, top, x.W - 1, top), fill=line, width=width)
+        return
+
+    center = x.W / 2
+    horizon = -0.75 * x.H
+    bottom = x.H - 1
+    top_scale = -horizon / (bottom - horizon)
+    columns = math.ceil(center / (cell * top_scale)) + 1
+    for index in range(-columns, columns + 1):
+        offset = index * cell
+        x.d.line((center + offset * top_scale, 0, center + offset, bottom), fill=line, width=width)
+
+    bottom_depth = 2 * (bottom - horizon) / cell
+    curvature = (bottom - horizon) / bottom_depth ** 2
+    top_depth = math.sqrt(-horizon / curvature)
+    phase = (time * speed / cell) % 1
+    for index in range(math.floor(top_depth), math.ceil(bottom_depth) + 1):
+        top = round(horizon + curvature * (index + phase) ** 2)
+        if 0 <= top <= bottom:
+            x.d.line((0, top, x.W - 1, top), fill=line, width=width)
+
+
 # ---------------------------------------------------------------- objects
 def block(x, rect, fill, label=None, size=34, ink=DARK, radius=14, outline=None, width=0):
     x.rr(rect, fill=fill, outline=outline, width=width, radius=radius)
