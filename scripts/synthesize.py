@@ -5,7 +5,9 @@ locked or already-present audio, then launches the profile's own TTS interpreter
 in worker mode. It never downloads models, never overwrites a locked file and
 never edits spoken_text / subtitle.
 
-  python3 synthesize.py PROJECT_DIR [--profile ID] [--only CUE_ID ...] [--dry-run]
+  python3 synthesize.py PROJECT_DIR [--profile ID] [--speed RATE] [--only CUE_ID ...] [--dry-run]
+
+Playback speed: --speed > project narration_tempo > profile processing.tempo (default 1.0).
 
 Per-cue fields read from project.json:
   spoken_text  formal narration (also the default subtitle)
@@ -15,6 +17,7 @@ Per-cue fields read from project.json:
   locked_sha256  approved audio; this cue is never regenerated
 """
 import argparse
+from copy import deepcopy
 import hashlib
 import json
 import os
@@ -34,6 +37,24 @@ def sha256(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def cache_key(conditions):
+    return hashlib.sha256(json.dumps(conditions, ensure_ascii=False, sort_keys=True).encode()).hexdigest()[:12]
+
+
+def validate_speed(value):
+    if isinstance(value, bool) or not isinstance(value, (int, float)) or not .5 <= value <= 2:
+        raise ValueError('narration speed must be a finite number from 0.5 to 2')
+    return float(value)
+
+
+def raw_key(profile, text, seed):
+    conditions = {k: profile[k] for k in ('backend', 'model_id', 'reference_sha256', 'reference_text', 'generation')}
+    runtime = profile['runtime']
+    conditions['runtime'] = {k: runtime[k] for k in ('model_path', 'device', 'dtype', 'attn_implementation')
+                             if k in runtime}
+    return cache_key(dict(**conditions, text=text, seed=seed))
+
+
 def spoken_input(cue, profile, pronunciations=None):
     text = cue.get('tts_text') or cue['spoken_text']
     if not cue.get('tts_text') and pronunciations:
@@ -51,6 +72,11 @@ def plan(root, args):
     data = json.loads(project_path.read_text())
     if data.get('narration') is not True:
         raise ValueError('project.json must set narration=true before synthesis')
+    speed = args.speed
+    if speed is not None:
+        speed = validate_speed(speed)
+    elif 'narration_tempo' in data:
+        speed = validate_speed(data['narration_tempo'])
     pronunciations = data.get('pronunciations', {})
     if not isinstance(pronunciations, dict) or any(
             not isinstance(k, str) or not k.strip() or not isinstance(v, str) or not v.strip()
@@ -78,11 +104,17 @@ def plan(root, args):
             prof = profiles[key_name]
             text = spoken_input(cue, prof, pronunciations)
             seed = int(cue.get('seed', prof.get('default_seed', 1234) + index))
-            key = hashlib.sha256(json.dumps(dict(fp=prof['profile_fingerprint'], text=text, seed=seed),
-                                            ensure_ascii=False, sort_keys=True).encode()).hexdigest()[:12]
-            rel = f'audio/{cid}-{prof["id"]}-{key}.wav'
-            jobs.append(dict(cue=cid, text=text, seed=seed, profile=prof['id'], out=rel,
-                             exists=(root / rel).is_file()))
+            profile_tempo = float(prof['processing'].get('tempo', 1.0))
+            tempo = profile_tempo if speed is None else speed
+            conditions = dict(fp=prof['profile_fingerprint'], text=text, seed=seed)
+            legacy_key = cache_key(conditions)
+            key = legacy_key if tempo == profile_tempo else cache_key(dict(**conditions, tempo=tempo))
+            prefix = f'{cid}-{prof["id"]}'
+            out = f'audio/{prefix}-{key}.wav'
+            raw = f'.local/tts-raw/{prefix}-{raw_key(prof, text, seed)}.wav'
+            legacy_raw = f'.local/tts-raw/{prefix}-{legacy_key}.wav'
+            jobs.append(dict(cue=cid, text=text, seed=seed, profile=prof['id'], out=out, tempo=tempo,
+                             raw=raw, legacy_raw=legacy_raw, exists=(root / out).is_file()))
     return data, project_path, profiles, jobs
 
 
@@ -109,15 +141,47 @@ def raw_audio_ready(path, cue):
     return True
 
 
+def prepare_narration(raw, staging, processing):
+    from process_narration import process, trim_edges_and_apply_tempo
+
+    denoise = processing.get('denoise')
+    edge_trim = processing.get('edge_trim')
+    tempo = processing['tempo']
+    source = staging / 'prepared.wav'
+    shutil.copyfile(raw, source)
+    raw_digest = sha256(source) if denoise or edge_trim else None
+    if not edge_trim:
+        apply_tempo(source, tempo)
+    meta = None
+    if denoise:
+        cleaned = staging / 'clean.wav'
+        meta = process(source, cleaned, denoise['preset'])
+        source = cleaned
+    if edge_trim:
+        final = staging / 'trimmed.wav'
+        trim_meta = trim_edges_and_apply_tempo(source, final, tempo)
+        meta = dict(denoise=meta, edge_trim=trim_meta, output_sha256=sha256(final))
+        source = final
+    if meta is not None:
+        meta.update(tts_raw_sha256=raw_digest, processing=processing)
+    return source, meta
+
+
 def controller(args):
     root = args.project.resolve()
     data, project_path, profiles, jobs = plan(root, args)
+    original = deepcopy(data)
     todo = [j for j in jobs if not j['exists']]
     for j in jobs:
-        raw = root / '.local/tts-raw' / Path(j['out']).name
-        j['raw_ready'] = not j['exists'] and raw_audio_ready(raw, j['cue'])
+        j['raw_ready'] = False
+        if not j['exists']:
+            for source in (j['raw'], j['legacy_raw']):
+                if raw_audio_ready(root / source, j['cue']):
+                    j['raw_ready'] = True
+                    j['raw_source'] = source
+                    break
         status = 'cached' if j['exists'] else 'process raw' if j['raw_ready'] else 'generate'
-        print(f'{status:<12} {j["cue"]:<20} [{j["profile"]}] {j["text"]}', flush=True)
+        print(f'{status:<12} {j["cue"]:<20} [{j["profile"]}, {j["tempo"]:g}x] {j["text"]}', flush=True)
     if args.dry_run:
         return
     (root / 'audio').mkdir(exist_ok=True)
@@ -127,8 +191,7 @@ def controller(args):
     generated = 0
     for pid, batch in by_profile.items():
         prof = next(p for p in profiles.values() if p['id'] == pid)
-        raw_jobs = [{**j, 'out': '.local/tts-raw/' + Path(j['out']).name} for j in batch]
-        missing = [j for j in raw_jobs if not j['raw_ready']]
+        missing = [{**j, 'out': j['raw']} for j in batch if not j['raw_ready']]
         if missing:
             with tempfile.NamedTemporaryFile('w', suffix='.json', delete=False) as fh:
                 json.dump(dict(profile=prof, root=str(root), jobs=missing), fh, ensure_ascii=False)
@@ -139,24 +202,24 @@ def controller(args):
                 generated += len(missing)
             finally:
                 os.unlink(fh.name)
-        from process_narration import process
-        processing = prof.get('processing', {})
-        for j, raw_job in zip(batch, raw_jobs):
+        for j in batch:
             out = root / j['out']
+            raw = root / j['raw']
+            source = root / j.get('raw_source', j['raw'])
+            processing = {**prof['processing'], 'tempo': j['tempo']}
             with tempfile.TemporaryDirectory(dir=root / '.local') as temp:
-                prepared = Path(temp) / 'tempo.wav'
-                shutil.copyfile(root / raw_job['out'], prepared)
-                apply_tempo(prepared, float(processing.get('tempo', 1.0)))
-                if processing.get('denoise'):
-                    cleaned = Path(temp) / 'clean.wav'
-                    meta = process(prepared, cleaned, processing['denoise']['preset'])
-                    meta['tts_raw_sha256'] = sha256(root / raw_job['out'])
-                    meta['processing'] = processing
-                    out.with_suffix('.processing.json').write_text(
-                        json.dumps(meta, ensure_ascii=False, indent=2) + '\n')
-                    cleaned.replace(out)
-                else:
-                    prepared.replace(out)
+                temp = Path(temp)
+                if source != raw:
+                    # Preserve the old file while making this raw reusable after future tempo changes.
+                    migrated = temp / 'raw.wav'
+                    shutil.copyfile(source, migrated)
+                    migrated.replace(raw)
+                prepared, meta = prepare_narration(raw, temp, processing)
+                if meta is not None:
+                    report = temp / 'prepared.processing.json'
+                    report.write_text(json.dumps(meta, ensure_ascii=False, indent=2) + '\n')
+                    report.replace(out.with_suffix('.processing.json'))
+                prepared.replace(out)
     # Point cues at their audio. Locked cues and text fields are untouched.
     paths = {j['cue']: j['out'] for j in jobs}
     seeds = {j['cue']: j['seed'] for j in jobs}
@@ -176,9 +239,13 @@ def controller(args):
                                      processing=prof.get('processing', {}))
         if prof.get('delivery_style'):
             data['voice_profile']['delivery_style'] = prof['delivery_style']
-    tmp = project_path.with_name('project.json.new')
-    tmp.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n')
-    tmp.replace(project_path)
+    if data != original:
+        with tempfile.TemporaryDirectory(dir=root) as temp:
+            tmp = Path(temp) / project_path.name
+            tmp.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n')
+            if json.loads(project_path.read_text()) != original:
+                raise ValueError('project.json changed during synthesis; retry to reuse the completed audio')
+            tmp.replace(project_path)
     print(f'Done: {generated} generated, {len(todo)} processed, {len(jobs) - len(todo)} cached, '
           f'audio path updated for {changed or "none"}')
     print('Next: build_timeline.py, then listen to the new clips before locking them.')
@@ -214,8 +281,10 @@ def worker(spec_path):
             raise ValueError(f'{job["cue"]}: suspicious output ({len(wav) / sr:.2f}s)')
         out = root / job['out']
         out.parent.mkdir(parents=True, exist_ok=True)
-        sf.write(out.with_suffix('.part.wav'), wav, sr, subtype='PCM_16')
-        out.with_suffix('.part.wav').replace(out)
+        with tempfile.TemporaryDirectory(dir=out.parent) as temp:
+            part = Path(temp) / out.name
+            sf.write(part, wav, sr, subtype='PCM_16')
+            part.replace(out)
         print(f'  {job["cue"]}: {len(wav) / sr:.2f}s', flush=True)
 
 
@@ -225,6 +294,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('project', type=Path)
     parser.add_argument('--profile', help='voice profile id; overrides project voice_profile.id')
+    parser.add_argument('--speed', type=float, metavar='RATE', help='narration speed for this run (0.5 to 2)')
     parser.add_argument('--config', type=Path)
     parser.add_argument('--only', nargs='+', help='regenerate only these cue ids')
     parser.add_argument('--dry-run', action='store_true')

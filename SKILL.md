@@ -2,7 +2,7 @@
 name: tech-explainer-video
 description: "以导演、视觉和分镜专家的方式制作或修改技术科普视频（AI、软件、网络、数据库、算法、系统架构）：知识核实、导演阐述、分镜与镜头语言、风格与引擎选择（Manim / Remotion / 逐帧绘制等按镜头需求选择）、配音生成、时间轴同步、审片与验收。用户说“做个讲解/科普视频”“把这个原理做成动画”“给视频配音/换声/修读音”时使用。只讨论概念或方法时只讨论，不建工程；用户指定引擎时尊重其选择。"
 metadata:
-  version: "0.3.5"
+  version: "0.3.8"
 ---
 
 # 技术科普视频（导演视角）
@@ -30,6 +30,16 @@ metadata:
 - 总问题覆盖正文的主要收获；区分用途、机制和示例。关键对象第一次被放大时，先说后续哪一步要用它，再演它怎么工作。
 - 开头 3–5 秒给出问题或效果；阶段之间兑现收获并引出下一问；结尾回扣开头，落到人的工作怎样改变。已选结尾与互动原句保留。
 
+### 复杂视频的制作顺序
+
+多段因果、多来源素材或明显叙事转折的新片，默认由 Max 审稿和审关键段，High 做分镜、试配、实现和局部修改。前一阶段的决定交接后再开始依赖它的工作。可在审稿时试一两个关键画面来验证表达。
+
+1. **Max 审完整旁白。** 旁白从开头写到结尾，通读事实、开头承诺、段落因果、过渡和结尾。将修改合入旁白，留下每段的理解目标、要展示的对象或素材和触发动作的词。旁白定稿后交给 High，再进入详细分镜。
+2. **High 做分镜、试配和实现。** 按定稿逐镜写清初态、动作与结果。先用选定音色和最终语速试听开头、转折和结尾，再以实际采用的逐句 WAV 排时间轴。给动作完成和观众读画面留时间。先看带声动态预演，再实现整片候选。
+3. **Max 审关键段。** 看带声画面里的开头、主要转折、最难动作和结尾，按“时间码—问题—改到什么状态”交给 High。High 只修命中的 cue 及受影响的相邻衔接，复查相应声画。改了旁白时按新 WAV 重算时间轴，复用其余已认可音频。
+
+单句补录、字号等局部修订可直接从对应步骤开始。已有审核结果可直接交接。默认使用当前任务所选模型的 Max 和 High 档，用户指定的模型或档位优先。当前模型缺少对应档位，或环境无法指定档位时，用当前模型可用的档位按相同顺序完成，并记录实际模型与档位。
+
 ## 3. 设计画面（本 Skill 的核心）
 
 读 [visual-craft.md](references/visual-craft.md)，分镜时逐镜落实：
@@ -48,7 +58,8 @@ metadata:
 
 - 声音优先级：本轮指定 > 工程 `voice_profile.id` > 本机默认。`scripts/voice_profiles.py list` 查登记声音；没有声音时做静音预演并说明缺口，不静默换系统音色。
 - 讲稿先读顺：主语明确、问答相接、意群完整，不强制“你/我们”。术语读法写在 `tts_text`/`pronunciations`；英文词连同前后整句试听，避免孤立拼词、拖尾与重复起音。
-- `python3 "$SKILL/scripts/synthesize.py" "$PROJECT" [--profile ID] [--only CUE...] [--dry-run]`
+- 新制带配音工程在 `project.json` 设置 `"narration_tempo": 1.5`。本轮 `--speed` 优先，其次工程语速，旧工程缺省时沿用声音 profile 的有效语速。局部返工用 `--only`，已锁定 WAV 优先复用。配置、缓存与局部试听见 [voice-profiles.md](references/voice-profiles.md#旁白语速与局部重做)。
+- `python3 "$SKILL/scripts/synthesize.py" "$PROJECT" [--profile ID] [--speed RATE] [--only CUE...] [--dry-run]`
 - 音质问题见 [audio-repair.md](references/audio-repair.md)、[audio-and-review.md](references/audio-and-review.md)、[voice-profiles.md](references/voice-profiles.md)、[voice-mobile.md](references/voice-mobile.md)。
 
 ## 5. 实现与预演
@@ -68,7 +79,7 @@ metadata:
 2. **接触表**：`"$PY" "$SKILL/scripts/contact_sheet.py" VIDEO --timeline actual-timeline.json --output contact.png --at-events`，每镜取关键动作刚发生后的帧（无事件时取 10%/50%/90%）；用 Read 实际看图，记录焦点、文字字数、视觉事件、机位重复。
 3. **零上下文复述**：把接触表交给无上下文子代理，用 [visual-craft.md](references/visual-craft.md) §9 的固定提问；“只看画面”判为不懂的镜头优先改画面。
 4. **关卡**：把复述结果写进 `$PROJECT/review.json`，运行 `python3 "$SKILL/scripts/review_gate.py" "$PROJECT"`。有“不懂”的镜头、缺判断、或接触表比源码旧时会拦下；**通过前不渲染正式整片**。修画面后重新出 draft、接触表、复述。仅混音且视频压缩流验证一致时，沿用对应画面证据，补做声音与同步检查。
-5. 按 [directing.md](references/directing.md) §12 清单逐项过。
+5. 按 [directing.md](references/directing.md) §12 清单逐项过。面向手机的 16:9 成片按 [目标显示尺寸](references/visual-hierarchy-and-timing.md#目标显示尺寸) 检查最终编码片的小字与动作中间态。
 6. **动态与声音**：检查最终编码片的连续播放和转场前/中/后密集帧；接触表不证明丝滑。试听包含前后句的动作密集段、英文术语段、结尾；有左右耳异常反馈时检查最终解码的左右通道，不能只看“单/双声道”标签。细则见 [motion-and-sound.md](references/motion-and-sound.md)、[audio-repair.md](references/audio-repair.md)。
 7. 技术检查（以下为 Manim 入口；Pillow 等沿用实际引擎输出路径，不为检查另换引擎）：
 

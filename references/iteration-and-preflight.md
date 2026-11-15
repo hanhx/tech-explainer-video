@@ -58,7 +58,7 @@ python3 "$SKILL/scripts/check_layout.py" "$PROJECT/layout-samples.json" \
 
 ## 4. 复用缓存并隔离任务
 
-TTS 中断后，`synthesize.py` 会复用匹配文本/声音/seed 文件名下完整的 `.local/tts-raw/*.wav`，只补缺失的原始音频，再各处理一次。非法/截断原始文件会报具体 cue 并保留，不静默覆盖；`--dry-run` 显示 generate、process raw、cached。
+TTS 中断或只改语速时，`synthesize.py` 按实际口播文本、语音合成条件和 seed 复用完整的 `.local/tts-raw/*.wav`，也识别同一 profile 指纹下用旧成品键命名的原始 WAV。非法/截断原始文件会报具体 cue 并保留。`--dry-run` 显示有效语速及 generate、process raw、cached 或 locked。
 
 Manim 项目在检查了输入依赖后，可加 `render_project.py --cache`，使用项目 `.local/manim-cache/` 下的持久原生 play 缓存。默认完整渲染行为不变；不加该选项可避开疑似旧缓存。缓存命中不等于声音、实际时间轴或最终合成已验收。
 

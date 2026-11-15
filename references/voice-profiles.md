@@ -62,13 +62,25 @@ wavs, sr = model.generate_voice_clone(
 )
 ~~~
 
-`processing.sentence_ending=exclamation` 表示把该句结束的句号换成感叹号来尝试引导韵律，不添加“开心地说”等会被读出的指令；屏幕字幕可保留原来的标点。`processing.tempo` 只在用户认可的音色方案中显式采用，处理后重新实测时长，不能再叠加一次相同提速。`pitch_semitones=0` 表示不变调。
+`processing.sentence_ending=exclamation` 表示把该句结束的句号换成感叹号来尝试引导韵律，不添加“开心地说”等会被读出的指令；屏幕字幕可保留原来的标点。`pitch_semitones=0` 表示不变调。
 
 Base 不支持 CustomVoice 的 `speaker` / `instruct` 方式。候选名称为 Ono_Anna 时，注册层仍可使用用户选中的 Ono_Anna 录音作为 Base 的固定参考；不要悄悄退回逐句独立 CustomVoice 生成。参考一致能固定条件，不能保证听感必然一致。
 
 缓存键包含 profile_fingerprint、实际口播文本、随机种子及其他生成参数。项目记录声音来源；用户认可的具体片段仍用 locked_sha256 锁定并直接复用。已有批准文件的正文不因标点策略被静默修改或重新生成。
 
 新视频至少复查术语、数字与连续句子的听感；以前认可的短片段不等于未来整片人工听音通过。个人录音、参考特征、本机配置、模型和缓存默认不进入可分享源码包，渲染包只需实际采用的逐句旁白；用户明确要求这些参考文件时按其范围交付。
+
+## 旁白语速与局部重做
+
+新制带配音工程把 `"narration_tempo": 1.5` 写入 `project.json`，`assets/starter-narrated/` 已预填。有效语速依次取本轮 `--speed`、工程 `narration_tempo`、当前 cue 的 `processing.tempo`，profile 也未填写时取 1.0。取值为 0.5–2 的有限倍数。历史 `narration_speed` 字段仅作旧工程记录；主动设置新字段才启用工程级覆盖。`1.5` 代表以原始合成录音的 1.5 倍速播放，CLI 覆盖只在当前合成生效。沿用本机 profile 原配置。
+
+```sh
+python3 "$SKILL/scripts/synthesize.py" "$PROJECT" --only CUE_ID --speed 1.25 --dry-run
+python3 "$SKILL/scripts/synthesize.py" "$PROJECT" --only CUE_ID --speed 1.25
+python3 "$SKILL/scripts/build_timeline.py" "$PROJECT/project.json"
+```
+
+成品缓存识别有效语速，与 profile 同速时兼容旧成品键。改速从匹配语音条件的原始 WAV 重新处理一次；仅有成品 WAV 时保留原件并重新合成原始音频。`locked_sha256` 校验通过就直接使用现有文件。修单句时指定 cue，比较修改前后的哈希并连同相邻句试听。字幕、动作、观察保持及音效各走其实际锚点，使用最终逐句 WAV 时长重建时间轴与 SRT。
 
 
 ## 降噪后处理
@@ -77,7 +89,7 @@ Base 不支持 CustomVoice 的 `speaker` / `instruct` 方式。候选名称为 O
 
 预设来自 2026-10-30 的低微沙沙声修复试听：用户对约 26 秒的开场与核心网段落 B 反馈“好多了”，并要求后续复用。其滤镜为 `afftdn=nr=8:nf=-42:tn=0:gs=8`，48 kHz 单声道，预补 0.1 秒尾音、去除滤镜引入的 1200 样本（25 ms）延迟，截取原时长。试听人声与 A 配平；新句处理按整句 RMS 配平并限制峰值，具体增益按句计算，不照搬试听的增益数值。FFmpeg 版本改变时用短脉冲/真实句子复核延迟，不能默认所有滤镜都延迟 25 ms。
 
-`synthesize.py` 顺序为：生成并保留原始 WAV → 仅一次已选 tempo → 降噪 → 按实际新 WAV 建时间轴。后处理条件进入 profile 指纹和缓存键，处理失败的半成品不能当成功缓存；已锁定句子始终直接复用。输出 WAV 邻近的 `.processing.json` 记录原始/处理前/输出哈希、参数、增益和工具版本。不要把新处理条件的 fingerprint 追填给未处理的旧 WAV。
+常规处理顺序为保留原始 WAV → 应用一次有效语速 → 降噪。采用下述边缘裁切预设时，在原始语速降噪，再裁切并变速。`.processing.json` 记录原始 WAV、各处理阶段与最终逐句 WAV 的哈希、有效语速和工具版本。处理失败时可用原始 WAV 重试，输出发布成功后才回写 cue 的路径。
 
 手动处理**已变速**的已有句子时：
 
@@ -89,10 +101,27 @@ python3 "$SKILL/scripts/process_narration.py" source.wav clean-variant.wav
 
 这次认可覆盖上述 B 试听的降噪方向，不代表未来新句或整片人工听音通过。新片继续检查清晰度、齿音、收尾和连续听感；如果变闷或产生水声，保留原句并局部调整，不把参数成功执行当成音质通过。
 
+## 边缘静音与 Saltline V11 旁白
+
+要在同一参考音色上复用 Saltline V11 的人声处理顺序，可在单独的本机 profile 中采用以下 `processing` 项并保留该音色原来的读音设置：
+
+```json
+{
+  "tempo": 1.5,
+  "denoise": {"preset": "afftdn-hiss-v1"},
+  "edge_trim": {"preset": "speech-edge-v1"},
+  "mastering": {"preset": "speech-mobile-v1"}
+}
+```
+
+逐句先在原始语速降噪，接着按 −43 dB、至少 0.17 秒检测静音。只裁切距端点 0.018 秒以内的边缘静音，保留句首 0.10 秒和句尾 0.16 秒；预算超过该句时长 40% 时保留全部边缘。句内停顿照常保留。裁切后应用一次有效语速，混合后的整条纯人声再走 [speech-mobile-v1](voice-mobile.md)。`edge_trim` 省略时沿用常规处理顺序及对应缓存。预设只记录处理条件，个人音色参考、路径和成片仍留在本机。
+
+开启裁切时，`.processing.json` 的 `denoise.output_sha256` 对应降噪中间 WAV，`edge_trim.source_sha256` 对应实际裁切输入，顶层 `output_sha256` 对应最终逐句 WAV。使用原有降噪输入复测能重现 V11 的逐句 WAV，另生成的新语句仍需检查截头、尾字、衔接与手机外放听感。
+
 ## 可选讲述与母带预设
 
 个人 profile 可保存 `delivery_style: "conversational-explainer-v1"` 及 `processing.mastering: {"preset": "speech-mobile-v1"}`。讲述标记指导 Agent 写短问句、转折与正常讲解，不直接传给 Qwen Base；不能声称模型支持额外 `instruct`。tempo 采用该用户实际选定值，不能对其他声音统一改速。
 
-合成成功后，processing 与 delivery_style 写入新工程的 voice_profile。母带偏好参与声音条件指纹，但合成阶段只执行已有 tempo/denoise；整段母带处理在渲染阶段执行。`render_project.py` 优先项目显式 `audio_mastering`（null 可关闭），否则读取工程内 voice_profile.processing.mastering；不在渲染已有工程时擅自读取本机新默认来重处理它。其他声音未配置时保留原行为。
+合成成功后，processing 与 delivery_style 写入新工程的 voice_profile。母带偏好参与声音条件指纹，合成阶段按配置逐句变速、降噪和裁切静音，整轨母带在渲染阶段执行。`render_project.py` 优先项目显式 `audio_mastering`（null 可关闭），否则读取工程内 voice_profile.processing.mastering；不在渲染已有工程时擅自读取本机新默认来重处理它。其他声音未配置时保留原行为。
 
 详见 [手机人声方案](voice-mobile.md)。个人审批记录、媒体位置及录音仍只留在本机配置，不随 Skill 发布。

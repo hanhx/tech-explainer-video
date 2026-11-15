@@ -1,9 +1,8 @@
-"""Apply the opt-in afftdn-hiss-v1 narration preset to a NEW WAV.
+"""Apply the opt-in afftdn-hiss-v1 narration preset to a new WAV.
 
-Input must already have its chosen tempo applied. Keeps a 48 kHz mono version
-of the same duration, compensates afftdn's 25 ms latency and pads the tail.
-Does not change TTS identity/reference or overwrite the source. Standard Python
-plus FFmpeg; no new model or Python dependency is required.
+Denoising keeps the input duration, supports raw or tempo-adjusted WAV, and
+compensates afftdn's 25 ms latency. The optional speech-edge-v1 helper trims
+boundary silence and applies the chosen tempo in one pass. Both use FFmpeg.
 """
 import argparse
 from array import array
@@ -11,14 +10,18 @@ import hashlib
 import json
 import math
 from pathlib import Path
+import re
 import subprocess
 import sys
 import tempfile
+import wave
 
 PRESET = 'afftdn-hiss-v1'
 RATE = 48000
 DELAY = 1200
 FILTER = 'apad=pad_dur=0.1,afftdn=nr=8:nf=-42:tn=0:gs=8'
+EDGE_PRESET = 'speech-edge-v1'
+EDGE_DETECT = 'silencedetect=noise=-43dB:d=0.17'
 
 
 def validate_denoise(value):
@@ -26,6 +29,14 @@ def validate_denoise(value):
         return None
     if not isinstance(value, dict) or value != {'preset': PRESET}:
         raise ValueError(f'denoise must be {{"preset": "{PRESET}"}} or omitted')
+    return value
+
+
+def validate_edge_trim(value):
+    if value is None:
+        return None
+    if not isinstance(value, dict) or value != {'preset': EDGE_PRESET}:
+        raise ValueError(f'edge_trim must be {{"preset": "{EDGE_PRESET}"}} or omitted')
     return value
 
 
@@ -45,6 +56,39 @@ def floats(blob):
 
 def rms(values):
     return math.sqrt(math.fsum(v * v for v in values) / len(values))
+
+
+def wave_duration(path):
+    with wave.open(str(path), 'rb') as audio:
+        return audio.getnframes() / audio.getframerate()
+
+
+def trim_edges_and_apply_tempo(source, output, tempo):
+    if output.exists():
+        raise ValueError('Use a new output path for edge trimming')
+    duration = wave_duration(source)
+    result = subprocess.run(['ffmpeg', '-hide_banner', '-nostdin', '-i', str(source), '-af',
+                             EDGE_DETECT, '-f', 'null', '-'], check=True, capture_output=True, text=True)
+    boundaries = [(float(start), float(end)) for start, end in
+                  re.findall(r'silence_start: ([\d.]+).*?silence_end: ([\d.]+)', result.stderr, re.S)]
+    head = tail = 0.0
+    if boundaries and boundaries[0][0] < .018:
+        head = max(0.0, boundaries[0][1] - .10)
+    if boundaries and abs(boundaries[-1][1] - duration) < .018:
+        tail = max(0.0, duration - boundaries[-1][0] - .16)
+    if head + tail > duration * .4:
+        head = tail = 0.0
+    head, tail = round(head, 6), round(tail, 6)
+    filters = [f'atrim=start={head}:end={duration - tail}', 'asetpts=PTS-STARTPTS']
+    if abs(tempo - 1.0) >= 1e-6:
+        filters.append(f'atempo={tempo}')
+    filter_chain = ','.join(filters)
+    subprocess.run(['ffmpeg', '-hide_banner', '-v', 'error', '-n', '-i', str(source), '-af',
+                    filter_chain, '-c:a', 'pcm_s16le', str(output)], check=True)
+    return dict(preset=EDGE_PRESET, detection_filter=EDGE_DETECT, filter=filter_chain,
+                source_sha256=digest(source), source_duration_s=duration,
+                output_duration_s=wave_duration(output), trim_head_s=head, trim_tail_s=tail,
+                ffmpeg_version=subprocess.check_output(['ffmpeg', '-version'], text=True).splitlines()[0])
 
 
 def process(source, output, preset=PRESET):

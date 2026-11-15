@@ -29,7 +29,7 @@
 
 顶层可选 `music`：`{"file": "bgm.mp3", "gain_db": -22, "duck": true}`，仅 final 模式混入。
 
-配音由 `scripts/synthesize.py` 生成到 `audio/` 并回写各 cue 的 audio 路径；它不改写锁定 cue、正文或字幕。
+配音由 `scripts/synthesize.py` 生成到 `audio/` 并回写各 cue 的 audio 路径；它不改写锁定 cue、正文或字幕。新制配音工程设置顶层 `narration_tempo: 1.5`，旧工程的缺省行为和临时覆盖方式见 [旁白语速与局部重做](voice-profiles.md#旁白语速与局部重做)。
 
 顶层可选 `pronunciations` 为术语到 TTS 读法的字面映射；只在 cue 没有显式 `tts_text` 时应用。正式正文不变。成功运行后将使用的默认 seed 固定写回选中的 cue；显式 seed 和锁定 cue 保持。生成中断可复用同缓存键下完整原始 WAV，而不重复调用模型。适用范围与示例见 [iteration-and-preflight.md](iteration-and-preflight.md)。
 

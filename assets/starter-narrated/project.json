@@ -1,6 +1,7 @@
 {
   "fps": 30,
   "narration": true,
+  "narration_tempo": 1.5,
   "purpose": "带配音示例：先运行 scripts/synthesize.py 生成 audio/，再按正常流程渲染",
   "sources": [
     "https://docs.python.org/3/c-api/refcounting.html"

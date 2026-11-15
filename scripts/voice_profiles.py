@@ -71,8 +71,9 @@ def resolve(path,choice=None):
     tempo=processing.get('tempo',1.0)
     if isinstance(tempo,bool) or not isinstance(tempo,(int,float)) or not math.isfinite(tempo) or not .5<=tempo<=2:
         raise ValueError(f'{name}: tempo must be a finite number from 0.5 to 2')
-    from process_narration import validate_denoise
+    from process_narration import validate_denoise, validate_edge_trim
     validate_denoise(processing.get('denoise'))
+    validate_edge_trim(processing.get('edge_trim'))
     from master_voice import validate_mastering
     validate_mastering(processing.get('mastering'))
     settings=profile.get('generation',{})
