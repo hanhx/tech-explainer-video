@@ -9,7 +9,7 @@ from PIL import Image, ImageDraw, ImageFont
 ROOT=Path(__file__).resolve().parent
 BG='#f4efe4'; PAPER='#fffaf0'; INK='#292e39'; MUTED='#686e76'; BLUE='#126782'; GOLD='#b26220'; RED='#ae493c'; LINE='#aaa89d'
 import os
-FONT=os.environ.get('EXPLAINER_FONT','/System/Library/Fonts/STHeiti Medium.ttc')
+FONT=os.environ.get('EXPLAINER_FONT','STHeiti Medium.ttc')
 def ease(p):
     p=max(0,min(1,p));return p*p*(3-2*p)
 def point(path,p):

@@ -39,16 +39,16 @@ build_timeline.py 检查输入后写 timeline.json，不生成或覆盖音频。
 
 ## 运行
 
-PYTHON 指用于 Manim 的 Python 解释器，SKILL 指当前 Skill 目录；运行时解析真实位置，不写死到生成工程中。
+`$PYTHON` 指用于 Manim 的 Python 解释器，`$SKILL` 指当前 Skill 目录，`$PROJECT` 指本期项目根目录。这些位置在运行时解析。
 
 ~~~sh
-python3 "$SKILL/scripts/build_timeline.py" /absolute/project/project.json
-python3 "$SKILL/scripts/render_project.py" /absolute/project --python "$PYTHON" --mode draft
-python3 "$SKILL/scripts/render_project.py" /absolute/project --python "$PYTHON" --mode stills
-python3 "$SKILL/scripts/render_project.py" /absolute/project --python "$PYTHON" --mode final
-python3 "$SKILL/scripts/verify_video.py" /absolute/project/out/final/video.mp4 \
-  --timeline /absolute/project/out/final/actual-timeline.json \
-  --output /absolute/project/out/final/verification.json
+python3 "$SKILL/scripts/build_timeline.py" "$PROJECT/project.json"
+python3 "$SKILL/scripts/render_project.py" "$PROJECT" --python "$PYTHON" --mode draft
+python3 "$SKILL/scripts/render_project.py" "$PROJECT" --python "$PYTHON" --mode stills
+python3 "$SKILL/scripts/render_project.py" "$PROJECT" --python "$PYTHON" --mode final
+python3 "$SKILL/scripts/verify_video.py" "$PROJECT/out/final/video.mp4" \
+  --timeline "$PROJECT/out/final/actual-timeline.json" \
+  --output "$PROJECT/out/final/verification.json"
 ~~~
 
 draft 是保持目标画幅比例的低清动态视频；stills 只生成最后状态和程序保存的检查点，不是动态预演。final 默认 1920×1080，可通过 --resolution 指定其他画幅。模板构图为 16:9；竖屏或方形需求还需重排镜头和 HUD，不能只改输出像素。

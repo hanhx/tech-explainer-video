@@ -23,9 +23,9 @@
   "default_profile": "my-voice-lively",
   "candidate_profile": "ono-anna",
   "runtime": {
-    "python": "/absolute/local/tts-venv/bin/python",
+    "python": "~/.venvs/qwen-tts/bin/python",
     "model_id": "Qwen/Qwen3-TTS-12Hz-1.7B-Base",
-    "model_path": "/absolute/local/base-model",
+    "model_path": "~/.local/share/manim-tech-explainer-video/models/qwen3-tts-base",
     "device": "auto",
     "attn_implementation": "sdpa"
   },

@@ -79,7 +79,7 @@
   ],
   "reproducible_baseline": {
     "project_manifest": "project/project-manifest.json",
-    "project_manifest_sha256": "263f4df5499bbc8ccf148d9bd0511a069a2aaf81b71ad2a7622ca52f427d1727",
+    "project_manifest_sha256": "1de96ca5ff77fb04c6ef4a135f5397072b2c00f54941da32b6f787c688620350",
     "goldens_manifest": "goldens/manifest.json",
     "goldens_manifest_sha256": "45b9a3b6d59b28ca67d3f44c4144b6c0f0a54b31ecb5b9f9bb660c364f467c0c",
     "component_module_skill_relative": "assets/handdrawn-kit/visuals.py",

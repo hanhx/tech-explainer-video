@@ -24,10 +24,11 @@ def grab(video, t, path, width):
 
 
 def font(size):
-    for name in ['/System/Library/Fonts/PingFang.ttc', '/System/Library/Fonts/STHeiti Medium.ttc',
-                 '/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc']:
-        if Path(name).exists():
+    for name in ('PingFang.ttc', 'STHeiti Medium.ttc', 'NotoSansCJK-Regular.ttc'):
+        try:
             return ImageFont.truetype(name, size)
+        except OSError:
+            continue
     return ImageFont.load_default()
 
 

@@ -1,7 +1,7 @@
 """Pillow frame-by-frame engine for tech-explainer-video (no Manim needed).
 
 A project provides `scenes.py` with:
-    STYLE = dict(bg=(r,g,b), ink=(r,g,b), font='/path/to/cjk.ttc')   # optional overrides
+    STYLE = dict(bg=(r,g,b), ink=(r,g,b), font='assets/fonts/cjk.ttc')   # optional overrides
     def draw_<scene_id>(ctx): ...      # one function per scene id in project.json
     CAMERA = {scene_id: [(t0, t1, zoom0, zoom1, (cx, cy)), ...]}       # optional, scene-local seconds
     CROSSFADE = {scene_id: seconds}                                     # optional, blend from previous scene
@@ -15,7 +15,7 @@ Run:
 Reads PROJECT/project.json + timeline.json (from build_timeline.py). Writes PROJECT/out/:
   video.mp4 | draft.mp4, stills, actual-timeline.json (same cue fields as timeline.json, flattened),
   subtitles.srt, word-times.json.
-Audio: narration WAVs + SFX (assets/sfx/*.wav if present, else synthesized) + optional
+Audio: narration WAVs + SFX (project sfx/ or Skill assets/sfx/, then synthesized) + optional
 project.json "music": {"file": ..., "gain_db": -22}, ducked under speech; loudnorm -16 LUFS.
 """
 import argparse
@@ -33,9 +33,12 @@ from PIL import Image, ImageDraw, ImageFont
 HERE = Path(__file__).resolve().parent
 SKILL = HERE.parent
 SR = 48000
-FONT_CANDIDATES = ['/System/Library/Fonts/Hiragino Sans GB.ttc', '/System/Library/Fonts/STHeiti Medium.ttc',
-                   '/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc',
-                   '/usr/share/fonts/noto-cjk/NotoSansCJK-Regular.ttc', 'C:/Windows/Fonts/msyh.ttc']
+FONT_CANDIDATES = (
+    'Hiragino Sans GB.ttc',
+    'STHeiti Medium.ttc',
+    'NotoSansCJK-Regular.ttc',
+    'msyh.ttc',
+)
 
 # ---------------------------------------------------------------- math helpers
 def clamp(x, a=0.0, b=1.0): return max(a, min(b, x))
@@ -50,7 +53,14 @@ def lerp_r(r1, r2, p): return tuple(lerp(a, b, p) for a, b in zip(r1, r2))
 
 class Fonts:
     def __init__(self, path):
-        self.path = path or next((p for p in FONT_CANDIDATES if Path(p).exists()), None)
+        self.path = path
+        if not self.path:
+            for name in FONT_CANDIDATES:
+                try:
+                    self.path = ImageFont.truetype(name, 12).path
+                    break
+                except OSError:
+                    continue
         if not self.path:
             raise SystemExit('No CJK font found; set STYLE["font"] in scenes.py')
         self.cache = {}
@@ -194,7 +204,13 @@ class Engine:
         self.W, self.H = style.get('size', (1920, 1080))
         self.fps = self.tl['fps']
         self.bg = style.get('bg', (17, 24, 48)); self.ink = style.get('ink', (236, 240, 250))
-        self.font = Fonts(style.get('font'))
+        font_path = style.get('font')
+        if font_path:
+            font_path = Path(font_path).expanduser()
+            project_font = self.root / font_path
+            if project_font.is_file():
+                font_path = project_font
+        self.font = Fonts(font_path)
         self.scenes = self.tl['scenes']
         self.plan_cues = {c['id']: c for s in self.plan['scenes'] for c in s['cues']}
         self.camera = getattr(self.mod, 'CAMERA', {})

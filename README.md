@@ -6,11 +6,11 @@
 
 ## 安装与调用
 
-将本仓库放在稳定的本地目录，然后建立软链接。把下面的仓库路径替换为自己的实际路径；目标位置已有内容时，先保留原目录。
+将本仓库放在稳定的本地目录，从仓库根目录运行以下命令建立软链接。目标位置已有内容时，先保留原目录。
 
 ```sh
 mkdir -p ~/.codex/skills
-ln -s /absolute/path/to/tech-explainer-video ~/.codex/skills/tech-explainer-video
+ln -s "$(pwd -P)" ~/.codex/skills/tech-explainer-video
 ```
 
 调用示例：

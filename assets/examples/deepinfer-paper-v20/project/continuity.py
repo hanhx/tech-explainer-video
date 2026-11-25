@@ -11,7 +11,7 @@ ROOT=Path(__file__).resolve().parent
 BG='#F2F9FC'; WHITE='#FFFFFF'; INK='#173D50'; MUTED='#497187'; TEAL='#07977D'; MINT='#CFF3E7'; GOLD='#FFB13B'; PURPLE='#3984BF'; CORAL='#EF7459'; LINE='#B7D8DF'; BODY='#FFFFFF'; SHADOW='#D5EAE8'; AMBER='#AD6500'
 base.BG=BG;base.PAPER=WHITE;base.INK=INK;base.MUTED=MUTED;base.BLUE=TEAL;base.GOLD=GOLD;base.RED=CORAL;base.LINE=LINE
 import os
-FONT=os.environ.get('EXPLAINER_FONT','/System/Library/Fonts/STHeiti Medium.ttc')
+FONT=os.environ.get('EXPLAINER_FONT','STHeiti Medium.ttc')
 @lru_cache(None)
 def font(size):return ImageFont.truetype(FONT,max(1,round(size)))
 def ease(p):return base.ease(p)

@@ -13,8 +13,8 @@ ROOT=Path(__file__).resolve().parent
 PAPER='#fcf8ed'; INK='#263a40'; MUTED='#627476'; BLUE='#276eab'; GREEN='#347563'
 GOLD='#b97522'; PURPLE='#785b99'; RED='#b94f46'; FAINT='#dcded4'
 SKY='#e1edf5'; MINT='#e1eee2'; CREAM='#f9e7bd'; LILAC='#ede4f5'
-FONT=os.environ.get('EXPLAINER_FONT','/System/Library/Fonts/Hiragino Sans GB.ttc')
-MONO=os.environ.get('EXPLAINER_MONO_FONT','/System/Library/Fonts/Menlo.ttc')
+FONT=os.environ.get('EXPLAINER_FONT','Hiragino Sans GB.ttc')
+MONO=os.environ.get('EXPLAINER_MONO_FONT','Menlo.ttc')
 SHOTS=json.loads((ROOT/'shots.json').read_text())
 
 def clamp(x):return min(1,max(0,x))

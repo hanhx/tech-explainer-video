@@ -2,9 +2,9 @@
   "schema_version": 1,
   "default_profile": "example-voice",
   "runtime": {
-    "python": "/absolute/path/to/tts-venv/bin/python",
+    "python": "~/.venvs/qwen-tts/bin/python",
     "model_id": "Qwen/Qwen3-TTS-12Hz-1.7B-Base",
-    "model_path": "/absolute/path/to/local/base-model",
+    "model_path": "~/.local/share/manim-tech-explainer-video/models/qwen3-tts-base",
     "device": "auto",
     "attn_implementation": "sdpa"
   },
